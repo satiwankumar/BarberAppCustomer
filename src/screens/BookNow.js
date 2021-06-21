@@ -15,7 +15,8 @@ const BookNow = ({route,getEmployeesByShopService,Employees:{employees,loading},
   const [empSelected,setEmpSelected] = useState(null)
   const [timeSelected,setEmpTimeSelected] = useState(null)
   useEffect(() => {
-    getEmployeesByShopService('60bcc7a7faeaaa0022cb83fc','60b52715ce9a9b002246afbf')
+    console.log('SHOPPPPPPPP', Service)
+    getEmployeesByShopService(Shop._id,Service._id)
   }, [Shop,Service])
 
     const [appointmentDate,setAppointmentDate] = useState(new Date())
