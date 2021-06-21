@@ -54,7 +54,7 @@ const ReviewAppointment = ({route,navigation}) => {
                 mode="contained"
                onPress={() => navigation.navigate('Payment',{Shop: Shop, Service: Service , AppointmentDate: AppointmentDate,EmployeeId : EmployeeId , TimeSlot: TimeSlot})}
                 >
-                <Text style={{ color: 'white', fontSize: 16,textTransform: 'uppercase',textAlign:'center'}}>Add payment
+                <Text style={{ color: 'white', fontSize: 16,textTransform: 'uppercase',textAlign:'center'}}>Confirm payment
                 </Text>
                 
             </TouchableOpacity> 

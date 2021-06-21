@@ -43,3 +43,21 @@ export const getBookings = () => async dispatch => {
       });
     }
   };
+
+
+  export const bookingStatus = (data) => async dispatch => {
+    try{
+      const res = await api.post('/bookings/status',data)
+      dispatch({
+        type:CANCEL_BOOKING,
+        payload:res.data
+      })
+    }catch(err){
+      console.log("error",err.response.data)
+      dispatch({
+        type: BOOKING_ERROR,
+        payload:err
+        
+      });
+    }
+  }
