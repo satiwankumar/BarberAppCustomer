@@ -8,11 +8,15 @@ import {getNearbyShops} from '../redux/actions/shops'
 import {connect} from 'react-redux'
 import Service from './components/Service'
 import { getUserData } from '../storage/storage';
-
-const Home = ({Auth:{isAuthenticated},navigation,route}) => {
+import {getCurrentProfile} from '../redux/actions/profile'
+const Home = ({Auth:{isAuthenticated},navigation,route,getCurrentProfile}) => {
   const [keyword,setKeyword] = useState('')
+  console.log("TTTTTTTTTTTTTTTT",route.params,"sjyfh")
   // const { long ,lat } = route.params
   // const long = route.params.long
+useEffect(() => {
+  getCurrentProfile();
+});
   console.log('AUTHENTICATIONNN KI VALUEEE',isAuthenticated)
   return (
     <View style={GLOBALSTYLE.screenbg} >
@@ -48,7 +52,7 @@ const Home = ({Auth:{isAuthenticated},navigation,route}) => {
 
       
        
-       <Text style={TEXTSTYLES.sectionHead}>Explore Services</Text>
+       <Text style={TEXTSTYLES.sectionHead}>Barbers</Text>
         
           <View >
           <ScrollView scrollEventThrottle={16} horizontal={true} showsHorizontalScrollIndicator={false} >
@@ -77,7 +81,7 @@ const Home = ({Auth:{isAuthenticated},navigation,route}) => {
 const mapStateToProps = (state) => ({
   Auth : state.auth
 });
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps,{getCurrentProfile})(Home);
 
 const styles = StyleSheet.create({
   formPart: {

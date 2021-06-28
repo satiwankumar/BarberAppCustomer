@@ -5,10 +5,10 @@ import * as Animatable from 'react-native-animatable';
 import { Container, Header, Content, Form, Item, Input, Button,  Label } from 'native-base';
 
 
-const SplashScreen = (props,navigation) => {
+const SplashScreen = ({navigation}) => {
     useEffect(() => {
         setTimeout(()=>{
-            props.navigation.navigate('LoginScreen')
+            navigation.navigate('LoginScreen')
         },2000)
       });
   return (

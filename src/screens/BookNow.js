@@ -7,9 +7,9 @@ import CalendarPicker from 'react-native-calendar-picker';
 import Team from './components/Team'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { connect } from 'react-redux'
-import { getEmployeesByShopService } from '../redux/actions/employees'
+import { getEmployeesByShopService,getTimeSlots } from '../redux/actions/employees'
 
-const BookNow = ({route,getEmployeesByShopService,Employees:{employees,loading},navigation}) => {
+const BookNow = ({route,getEmployeesByShopService,getTimeSlots,Employees:{employees,loading,timelsots},navigation}) => {
   const Shop= route.params.Shop
   const Service= route.params.Service
   const [empSelected,setEmpSelected] = useState(null)
@@ -23,28 +23,22 @@ const BookNow = ({route,getEmployeesByShopService,Employees:{employees,loading},
     const mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
     const daylist = [ "Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"]
     const [isDayPickerVisible, setDayPickerVisibility] = useState(false);
-    const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+    const EmployeeSlot = (item) => {
+console.log("Selected emloyee",item)
+setEmpSelected(item)
+getTimeSlots(item._id,Service._id,appointmentDate)
+console.log("TIME E ",timelsots)
+    }
     const showDayPicker = () => {
-        setDayPickerVisibility(true);
-      };
-      const showTimePicker = () => {
-        setTimePickerVisibility(true);
+        setDayPickerVisibility(true);                        
       };
       const hideDayPicker = () => {
         setDayPickerVisibility(false);
       };
-      const hideTimePicker = () => {
-        setTimePickerVisibility(false);
-      };
-    
       const handleConfirmDay = (date) => {
         setAppointmentDate(date)
         console.log(appointmentDate)
         hideDayPicker();
-      };
-      const handleConfirmTime = (date) => {
-        console.warn("A date has been picked: ", date);
-        hideTimePicker();
       };
         return (
             <View style={GLOBALSTYLE.screenbg} >
@@ -99,9 +93,9 @@ const BookNow = ({route,getEmployeesByShopService,Employees:{employees,loading},
 
 employees.data.map((item,index)=>(
         
-        <ListItem key={item._id}  onPress={() => setEmpSelected(item)} style={{borderColor:COLORS.transparent,padding:0,margin:0,marginLeft:0,marginRight:0,paddingLeft:0,paddingRight:0}} >
+        <ListItem key={index}  onPress={() => EmployeeSlot(item)} style={{borderColor:COLORS.transparent,padding:0,margin:0,marginLeft:0,marginRight:0,paddingLeft:0,paddingRight:0}} >
         <Radio
-        onPress={() => setEmpSelected(item)}
+        onPress={() => EmployeeSlot(item)}
             color={COLORS.transparent}
             selectedColor={COLORS.transparent}
             selected={empSelected == item ? true : false}
@@ -125,10 +119,12 @@ employees.data.map((item,index)=>(
             <Text style={TEXTSTYLES.sectionHead}>Availible time slots </Text>
             <ScrollView scrollEventThrottle={16} horizontal={true}  showsHorizontalScrollIndicator={false}>
 {
-  empSelected !== null ? 
+  empSelected !== null  ? 
   <>
 
-{empSelected.slots.map((item,index) => (
+{
+  timelsots && Object.keys(timelsots).length>0 ? 
+timelsots.hours.map((item,index) => (
   <>
   
 
@@ -143,12 +139,12 @@ employees.data.map((item,index)=>(
           
            <View >
            <View style={timeSelected == item ? styles.timeSelect : styles.time}>
-                <Text style={{color:COLORS.white,textTransform:'uppercase'}}>{empSelected.slots[index][0]} - {empSelected.slots[index][1]}</Text>
+                <Text style={{color:COLORS.white,textTransform:'uppercase'}}>{item.startTime} - {item.endTime}</Text>
                 </View>
          </View>
       </ListItem>
                 </>
-                ))
+                )): null
             }
   </>
 
@@ -173,7 +169,7 @@ const mapStateToProps = state => ({
   Employees: state.employees
 
 })
-export default connect(mapStateToProps, { getEmployeesByShopService })(BookNow);
+export default connect(mapStateToProps, { getEmployeesByShopService,getTimeSlots })(BookNow);
 
 const styles = StyleSheet.create({
     formPart:{

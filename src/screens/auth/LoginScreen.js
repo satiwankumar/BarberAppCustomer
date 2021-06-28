@@ -1,7 +1,7 @@
 import React,{ useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import { Text, StyleSheet,StatusBar,ScrollView ,BackHandler,Keyboard, TouchableOpacity,ActivityIndicator} from 'react-native';
+import { Text, StyleSheet,StatusBar,ScrollView ,BackHandler,Keyboard, TouchableOpacity,ActivityIndicator, Modal,FlatList, Platform} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Item, Input, Button, View, Label,Icon } from 'native-base';
 import { COLORS, SIZES, GLOBALSTYLE } from '../../constants';
@@ -10,6 +10,7 @@ import {login} from '../../redux/actions/auth'
 import Toast from 'react-native-simple-toast';
 import {GoogleSignin, statusCodes} from '@react-native-community/google-signin';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import PushNotification from "react-native-push-notification";
 
 const LoginScreen = ({login,navigation,Auth:{isAuthenticated,loading}}) => {
     const [iconName, setIconName] = useState(false)
@@ -18,8 +19,25 @@ const LoginScreen = ({login,navigation,Auth:{isAuthenticated,loading}}) => {
       
         email:'',
         password:'',
+        deviceId:'',
+        deviceType: Platform.OS
     });
-    console.log('loaod',loading)
+
+    useEffect(()=>{
+        PushNotification.configure({
+            onRegister: function (token) {
+              console.log("FCMcccTOKEN:", token.token);
+              setFormData({...formData,deviceId : token.token})
+            },
+        })
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            onPress= () => BackHandler.exitApp()
+          );
+          return () => backHandler.remove();
+    },[])
+
+
     const onSubmit= async()=>{
         setViewLoader(true)
         Keyboard.dismiss()
@@ -31,6 +49,7 @@ const LoginScreen = ({login,navigation,Auth:{isAuthenticated,loading}}) => {
         console.log("email,password")
         console.log(email,password)
         try{
+            console.log(formData)
             await login(formData)
             navigation.navigate('FindServices')
         }
@@ -45,6 +64,7 @@ const LoginScreen = ({login,navigation,Auth:{isAuthenticated,loading}}) => {
             password:''
         })
     }
+ 
     GoogleSignin.configure({
         webClientId:
           '866425838449-8fcvpcksosuk77083kg0u51auanbuagk.apps.googleusercontent.com',

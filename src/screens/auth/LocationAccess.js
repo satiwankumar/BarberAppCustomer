@@ -18,10 +18,7 @@ const LocationAccess =({navigation}) => {
         fastInterval: 5000,
       })
         .then(() => {
-          Geolocation.getCurrentPosition(data => {
-            console.log("locatiom",data.coords)
-            navigation.navigate('Home',{currentlocation:data.coords})
-                },
+          Geolocation.getCurrentPosition(data => navigateToHome(data),
                 error => console.log(error),
                 {
                     enableHighAccuracy: false,
@@ -34,7 +31,10 @@ const LocationAccess =({navigation}) => {
         return;
         }); 
   }
-
+const navigateToHome = async (data) =>{
+  console.log(data.coords)
+  navigation.navigate('Home',{currentLocation : data.coords})
+}
   const requestLocationPermission = async () => {
     try {
         const granted = await PermissionsAndroid.request(

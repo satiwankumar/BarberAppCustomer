@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, StyleSheet, Image, StatusBar, ScrollView, TouchableOpacity,ActivityIndicator } from 'react-native';
+import { Text, StyleSheet, Image, StatusBar, ScrollView, TouchableOpacity,ActivityIndicator,Modal,FlatList } from 'react-native';
 import { Item, Input, Button, View, Label } from 'native-base';
 import { COLORS, SIZES, GLOBALSTYLE } from '../../constants';
 import * as Animatable from 'react-native-animatable';
@@ -10,20 +10,17 @@ import { connect, useSelector } from 'react-redux'
 import { register } from '../../redux/actions/auth'
 import Toast from 'react-native-simple-toast';
 import ImgToBase64 from 'react-native-image-base64';
-
+import AddressApi, {getAddressPrediction, getGeoCode} from '../../redux/utils/address';
 
 const SignUp2 = ({ register, Auth:{isAuthenticated,loading},navigation,route  }) => {
     const [viewLoader, setViewLoader] = useState(false)
     const { firstname, lastname, email, password, image } = route.params;
-    const googleBaseUrl =
-    'https://maps.googleapis.com/maps/api/place/autocomplete/json?types=(cities)&input=';
-  const googleAllBaseUrl =
-    'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=';
-  const geoBase = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=';
-  const googleApiKey = 'AIzaSyBFRqlCOvRtuKLpvDSP5qLkiyCr5dKx7jI';
-  const geocodeUrl =
-    'http://dev61.onlinetestingserver.com/forward-geo-code?address=';
-
+    const [showAddressModal, setShowAddressModal] = useState(false);
+    const [addressData, setAddressData] = useState([]);
+    const [zipCode, setZipCode] = useState('');
+    // const [country, setCountry] = useState('');
+    const [lat, setLat] = useState(0);
+  const [long, setLong] = useState(0);
     const [formData, setformData] = useState({
         firstname: firstname,
         lastname: lastname,
@@ -39,6 +36,33 @@ const SignUp2 = ({ register, Auth:{isAuthenticated,loading},navigation,route  })
 
     })
     const { city, country, address, zip_code } = formData
+
+    const getAddress = async text => {
+      setformData({ ...formData, address: text })
+  
+      const addressList = await getAddressPrediction(text);
+      console.log('A_L', addressList);
+      if (addressList&&addressList.length > 0) {
+        setShowAddressModal(true);
+        setAddressData(addressList);
+      }
+  
+      if(text==''){
+        setShowAddressModal(false);
+      }
+    };
+    const getLatLongFromAdd =  async (address) => {
+      setShowAddressModal(false);
+      const addressInfo = await getGeoCode(address);
+      setformData({ ...formData, address: address ,zip_code: addressInfo.zipCode,country: addressInfo.country,city: addressInfo.city })
+      
+      console.log('Z_C',addressInfo);
+      setLat(addressInfo.lat);
+      setLong(addressInfo.lng);
+    }
+
+
+
     const onSubmit = async () => {
         setViewLoader(true)
 if(image !== null) {
@@ -61,10 +85,31 @@ if(image !== null) {
 
         // console.log(isRegistered,'STATUS')
     }
+
+    const renderItem = ({item, index}) => {
+      console.log(item.description);
+      return (
+        <View
+          key={index}
+          style={{paddingVertical:5,borderBottomWidth:1,borderBottomColor:COLORS.lightGray,
+          }}>
+           <TouchableOpacity onPress={()=>getLatLongFromAdd(item.description)}>
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: 14.5,
+            }}>
+            {item.description}
+          </Text></TouchableOpacity>
+        </View>
+      );
+    };
+
+
     return (
         <View style={[GLOBALSTYLE.screenbg, styles.container]} >
             <StatusBar translucent backgroundColor="transparent" />
-            <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
+            <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
 
 
                 <View style={styles.formContent}>
@@ -74,58 +119,64 @@ if(image !== null) {
                         source={require("../../assets/images/logo.png")}
                     />
                     <Text style={styles.headText}> Your Location </Text>
-                    <Text style={styles.headDesc}>Enter Details to View Nearby Shops </Text>
-
-                    <Item style={styles.inputBox}>
-                        <Picker
-                            itemStyle={{
-                                backgroundColor: "#000"
-                            }}
-                            style={{ flex: 1, color: COLORS.lightGray }}
-                            dropdownIconColor={COLORS.lightGray}
-                            placeholderTextColor={COLORS.secondry}
-                            itemStyle={{ backgroundColor: COLORS.secondry }}
-                            selectedValue={country}
-                            onValueChange={(itemValue, itemIndex) =>
-                                setformData({ ...formData, country: itemValue })
-
-                            }
-                        >
-                            <Picker.Item label="Select Country" value='' />
-                            <Picker.Item style={{ backgroundColor: COLORS.primary }} label="USA" value="usa" />
-                            <Picker.Item label="UK" value="uk" />
-
-
-                        </Picker>
-
-                    </Item>
-
-                    <Item style={styles.inputBox}>
-                        <Picker
-                            itemStyle={{
-                                backgroundColor: "#000"
-                            }}
-                            style={{ flex: 1, color: COLORS.lightGray }}
-                            dropdownIconColor={COLORS.lightGray}
-                            placeholderTextColor={COLORS.secondry}
-                            itemStyle={{ backgroundColor: COLORS.secondry }}
-                            selectedValue={city}
-                            onValueChange={(itemValue, itemIndex) =>
-                                setformData({ ...formData, city: itemValue })
-
-                            }
-                        >
-                            <Picker.Item label="Select City" value='' />
-                            <Picker.Item style={{ backgroundColor: COLORS.primary }} label="Newyork" value="ny" />
-                            <Picker.Item label="Chicago" value="chicago" />
-                            <Picker.Item label="Boston" value="bs" />
-                            <Picker.Item label="Seatle" value="st" />
-
-
-                        </Picker>
-
+                    <Text style={styles.headDesc}>Enter Address to View Nearby Shops </Text>
+                    <Item
+                        floatingLabel
+                        style={styles.inputBox}>
+                        <Label
+                            style={styles.labelContent}>Country</Label>
+                        <Input
+                        
+                            style={styles.textContent}
+                            autoCorrect={false}
+                            placeholderTextColor={COLORS.white}
+                            autoCapitalize="none"
+                            value={country}
+                            onChangeText={(e) => setformData({ ...formData, country: e })}
+                        />
                     </Item>
                     <Item
+                        floatingLabel
+                        style={styles.inputBox}>
+                        <Label
+                            style={styles.labelContent}>City</Label>
+                        <Input
+                        
+                            style={styles.textContent}
+                            autoCorrect={false}
+                            placeholderTextColor={COLORS.white}
+                            autoCapitalize="none"
+                            value={city}
+                            onChangeText={(e) => setformData({ ...formData, city: e })}
+                        />
+                    </Item>
+                    <View>
+                    {showAddressModal && (
+            <View
+              style={{
+                width:'100%',
+              }}>
+              <View
+                style={{ 
+                  backgroundColor: COLORS.black,
+                  padding:10,
+                  borderColor: COLORS.lightGray,
+                  borderRadius:5,
+                  width:'100%',
+                  position:'absolute',
+                  bottom:0,
+                  paddingBottom:20,
+                  paddingHorizontal:15
+                }}>
+                <FlatList
+                  data={addressData.slice(0,3)}
+                  renderItem={renderItem}
+                />
+              </View>
+            </View>
+          )}
+          
+           <Item
                         floatingLabel
                         style={styles.inputBox}>
                         <Label
@@ -133,12 +184,14 @@ if(image !== null) {
                         <Input
                             style={styles.textContent}
                             autoCorrect={false}
-                            placeholderTextColor={COLORS.white}
+                            placeholderTextColor={COLORS.lightGray}
                             autoCapitalize="none"
-                            onChangeText={(e) => setformData({ ...formData, address: e })}
-                          
+                            onChangeText={text => getAddress(text)}
+                            value={address}
                         />
                     </Item>
+                    </View>
+                   
 
                     <Item
                         floatingLabel
@@ -146,10 +199,12 @@ if(image !== null) {
                         <Label
                             style={styles.labelContent}>Zip Code</Label>
                         <Input
+                        
                             style={styles.textContent}
                             autoCorrect={false}
                             placeholderTextColor={COLORS.white}
                             autoCapitalize="none"
+                            value={zip_code}
                             onChangeText={(e) => setformData({ ...formData, zip_code: e })}
                         />
                     </Item>
@@ -168,6 +223,9 @@ if(image !== null) {
 
                 </View>
             </ScrollView>
+
+           
+
         </View>
     )
 }
@@ -190,7 +248,7 @@ const styles = StyleSheet.create({
         width: SIZES.width * 0.30,
         height: SIZES.width * 0.30,
         resizeMode: "contain",
-        marginTop: 30,
+        marginTop: 0,
         marginBottom:10,
         alignSelf: 'center'
     },

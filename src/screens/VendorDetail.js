@@ -116,7 +116,7 @@ onPress={ () => navigation.navigate('BookNow',{Shop: Shop, Service: item}) }
             </Animatable.View>
 
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <Text style={TEXTSTYLES.sectionHead}>
                 Popular Services
            </Text>
@@ -139,7 +139,7 @@ onPress={ () => navigation.navigate('BookNow',{Shop: Shop, Service: item}) }
                   time='60'
                   price='30'
                 />
-              </View> : null}
+              </View> : null} */}
 
 
 

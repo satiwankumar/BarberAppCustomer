@@ -59,6 +59,7 @@
 
       <meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground"
                     android:value="false"/>
+                    
         <!-- Change the resource name to your App's accent color - or any other color you want -->
         <meta-data  android:name="com.dieam.reactnativepushnotification.notification_color"
                     android:resource="@color/black"/> <!-- or @android:color/{name} to use a standard color -->

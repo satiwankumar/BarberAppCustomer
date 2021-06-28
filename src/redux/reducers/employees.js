@@ -1,6 +1,8 @@
 import {
     GET_EMPLOYEES,
     EMPLOYEES_ERROR,
+    TIMESLOT_ERROR,
+    GET_TIMESLOTS
   
   } from '../actions/types';
   
@@ -9,7 +11,8 @@ import {
   const initialState = {
     employees:[],
     loading: true,
-    error: {}
+    error: {},
+    timelsots:[]
   };
   
 const employees =  function (state = initialState, action) {
@@ -30,7 +33,19 @@ const employees =  function (state = initialState, action) {
           loading:false,
           employees:[],
         };
-   
+
+        case GET_TIMESLOTS:
+          return {
+            ...state,
+            loading:false,
+            timelsots:payload,
+          };
+          case TIMESLOT_ERROR:
+            return {
+              ...state,
+              loading:false,
+              timelsots:[],
+            };
     
       default:
         return state;

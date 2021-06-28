@@ -1,50 +1,60 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native'
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View,Text ,Button, TouchableOpacity} from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack'
 import Tabs from './Tabs'
 import { Home, ResetCode, ServiceProvider, BookingComplete, ReviewAppointment, EditProfile, Notification, Payment, JobDetails, PostedJobs, LocationAccess, SplashScreen, UserBookings, UserProfile, FindServices, LoginScreen, SignUp, SignUp2, BookNow, ForgotPassword, VendorDetail, ViewAll, AllReviews, ResetPassword } from '../screens'
 import { COLORS } from '../constants';
 import { connect } from 'react-redux'
-
+import { Icon } from 'native-base';
 const Stack = createStackNavigator();
-
+const NotificationIcon = ({navigation}) => {
+    return(
+        <TouchableOpacity>
+            <Icon style={{fontSize:23, color: COLORS.lightGray,marginHorizontal:10}} name='notifications-outline' />
+        </TouchableOpacity>
+    )
+}
 const Routes = ({ Auth: { isAuthenticated } }) => {
     return (
         <NavigationContainer theme={DarkTheme} >
             <Stack.Navigator
+             
                 screenOptions={{
                     headerShown: true,
                     title: false,
+                    
                     headerStyle: {
                         backgroundColor: COLORS.primary,
                     },
                 }}
                 initialRouteName={"SplashScreen"}
+               
             >
                 {isAuthenticated ?
                         (
                           <>
-                           <Stack.Screen name="FindServices" component={FindServices} ></Stack.Screen>
-                          <Stack.Screen name="LocationAccess" component={LocationAccess} ></Stack.Screen>
-                           <Stack.Screen name="Home" component={Tabs} ></Stack.Screen>
-                          <Stack.Screen name="ViewAll" component={ViewAll} ></Stack.Screen>
-                          <Stack.Screen name="VendorDetail" component={VendorDetail} ></Stack.Screen>
-                          <Stack.Screen name="PostedJobs" component={PostedJobs}></Stack.Screen>
-                          <Stack.Screen name="JobDetails" component={JobDetails}></Stack.Screen>
-                          <Stack.Screen name="UserBookings" component={UserBookings}></Stack.Screen>
-                          <Stack.Screen name="UserProfile" component={UserProfile} ></Stack.Screen>
-                          <Stack.Screen name="EditProfile" component={EditProfile}></Stack.Screen>
-                          <Stack.Screen name="AllReviews" component={AllReviews}></Stack.Screen>
-                          <Stack.Screen name="ServiceProvider" component={ServiceProvider}></Stack.Screen>
-                          <Stack.Screen name="BookNow" component={BookNow}></Stack.Screen>
-                          <Stack.Screen name="ReviewAppointment" component={ReviewAppointment}></Stack.Screen>
-                          <Stack.Screen name="Payment" component={Payment}></Stack.Screen>
-                          <Stack.Screen name="BookingComplete" component={BookingComplete}></Stack.Screen>
-                          <Stack.Screen name="Notification" component={Notification}></Stack.Screen>
-                          <Stack.Screen name="ResetCode" component={ResetCode}></Stack.Screen>
-                          <Stack.Screen name="ResetPassword" component={ResetPassword}></Stack.Screen>
+                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="FindServices" component={FindServices} 
+                          ></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="LocationAccess" component={LocationAccess} ></Stack.Screen>
+                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="Home" component={Tabs} ></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ViewAll" component={ViewAll} ></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="VendorDetail" component={VendorDetail} ></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="PostedJobs" component={PostedJobs}></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="JobDetails" component={JobDetails}></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="UserBookings" component={UserBookings}></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="UserProfile" component={UserProfile} ></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="EditProfile" component={EditProfile}></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="AllReviews" component={AllReviews}></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ServiceProvider" component={ServiceProvider}></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="BookNow" component={BookNow}></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ReviewAppointment" component={ReviewAppointment}></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="Payment" component={Payment}></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="BookingComplete" component={BookingComplete}></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="Notification" component={Notification}></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ResetCode" component={ResetCode}></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ResetPassword" component={ResetPassword}></Stack.Screen>
                         </>
                         ) :
                         <>

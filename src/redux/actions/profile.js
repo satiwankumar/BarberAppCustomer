@@ -14,7 +14,7 @@ export const getCurrentProfile = () => async dispatch => {
         });
 
     } catch (err) {
-        console.log("errorProfile", err)
+        console.log("errorProfile", err.response.data.message)
         dispatch({
             type: PROFILE_ERROR,
             

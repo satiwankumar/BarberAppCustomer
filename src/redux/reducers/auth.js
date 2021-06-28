@@ -35,10 +35,10 @@ export default function(state = initalState, action){
             }
         case LOGIN_SUCCESS:
             console.log("login payloadd",payload)
-            storeUserData('@userData',payload.user)
+            // storeUserData('@userData',payload.user)
             setAuthToken(payload.token)
             AsyncStorage.setItem('token',payload.token);
-            console.log(payload.token);
+            console.log("USER TOKENNNNN",payload.token);
             return {
                 ...state,
                 ...payload,

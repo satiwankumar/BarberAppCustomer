@@ -13,7 +13,7 @@ const UserBookings = ({getBookings,Bookings: {Bookings,loading}}) => {
   const mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
   useEffect(() => {
     getBookings()
-  }, [getBookings,loading,Bookings])
+  },[getBookings])
 
   console.log('BOOKINH',Bookings)
 
@@ -80,12 +80,12 @@ const UserBookings = ({getBookings,Bookings: {Bookings,loading}}) => {
               </CardItem>
                   <View style={{margin:10, alignSelf:'flex-end'}}>
                     {
-                      item.status == "Cancelled" ? <Text style={{color:'red'}}>CANCELLED</Text> : <Text style={{color:'green'}}>CONFIRM</Text>
+                      item.status == "Cancelled" ? <Text style={{color:'#c54141'}}>CANCELLED</Text> : <Text style={{color:'green'}}>CONFIRM</Text>
                     }
                   </View>
             </Card>
 
-            )):   <View style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',marginTop:'40%'}}>
+            )):   <View style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',marginTop:'1%'}}>
             <Icon style={{color:COLORS.lightGray,fontSize:90}} name="calendar-outline"></Icon>
               <Text style={{ color:COLORS.lightGray,fontSize:20,textTransform:'uppercase',fontWeight:'bold',letterSpacing:1}}>No Appointments</Text>
             </View>

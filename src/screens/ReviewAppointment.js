@@ -42,7 +42,7 @@ const ReviewAppointment = ({route,navigation}) => {
         <Animatable.View animation="slideInUp" style={{alignSelf:'center',paddingHorizontal:20,alignItems:'center'}}>
         <Icon  style={{color:COLORS.lightGray,fontSize:80,marginBottom:20}} name="calendar-outline"></Icon>
         <View style={{flexDirection:'row'}}>
-        <Text style={{color:COLORS.white,fontSize:20,textTransform:'uppercase',fontWeight:'bold',paddingHorizontal:12,borderRightColor:COLORS.lightGray,borderRightWidth:2}}>{TimeSlot[0]}</Text>
+        <Text style={{color:COLORS.white,fontSize:20,textTransform:'uppercase',fontWeight:'bold',paddingHorizontal:12,borderRightColor:COLORS.lightGray,borderRightWidth:2}}>{TimeSlot.startTime}</Text>
             <Text style={{color:COLORS.white,fontSize:20,textTransform:'uppercase',fontWeight:'bold',paddingHorizontal:12,}}>{Service.title}</Text>
             
         </View>

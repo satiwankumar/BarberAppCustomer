@@ -31,8 +31,8 @@ const Vendor = ({navigation,getNearbyShops,Shops:{Shops,loading},keyword}) => {
                            style={styles.shopImg}/>
                            
                 <View style={styles.shopText}>
-                <Text style={styles.shopHead}>{item?.title}</Text>
-                <Text style={styles.shopDesc} noOfLines={2}>{item.address}</Text>
+                <Text style={styles.shopHead} numberOfLines={1} ellipsizeMode='tail'>{item?.title}</Text>
+                <Text style={styles.shopDesc} numberOfLines={2} ellipsizeMode='tail'>{item.address}</Text>
                 <View style={{ flexDirection: 'row',marginTop:8 }}>
                 <Icon style={{fontSize:15,color:'#ffe31a'}} name='star' />
                     <Text style={{ color: COLORS.lightGray, marginLeft: 5 }}>{item.averageRating} Rating</Text>
@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
         borderColor: COLORS.secondry,
         borderRadius: 8,
         backgroundColor: COLORS.primary,
-        width:300
+        width:300,
+        minHeight:300,
 
 
     },

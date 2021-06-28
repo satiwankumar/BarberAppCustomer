@@ -10,7 +10,7 @@ const PostedJobs = ({navigation,getJobs,Jobs:{Jobs,loading}}) => {
 console.log('Keyywordd ayaya',keyword)
   useEffect (() =>{
     getJobs(keyword)
-},[getJobs,keyword])
+},[keyword])
 console.log("LOAD",Jobs)
   return (
     <Container style={styles.container}>
@@ -47,7 +47,7 @@ console.log("LOAD",Jobs)
                 <Text style={{ color: COLORS.white, textTransform: 'uppercase', fontSize: 17 }}>
                   {item.title}
                 </Text>
-                <Text style={{ color: COLORS.white, marginBottom: 10 }}>{item.shop.title} - {item.shop.address}</Text>
+                <Text style={{ color: COLORS.white, marginBottom: 10 }}>{item.shop?.title} - {item.shop?.address}</Text>
                 <Text style={{ color: COLORS.lightGray }}>
                  {item.description}
                 </Text>

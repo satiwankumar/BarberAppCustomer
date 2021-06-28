@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {View, Text,ScrollView,StyleSheet,StatusBar,TouchableOpacity} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {View, Text,ScrollView,StyleSheet,StatusBar,TouchableOpacity,BackHandler} from 'react-native';
 import { Container, Header, Content, Accordion, Form, Item,Radio,ListItem, Right, Left , Input,Label, Button, Icon,Card, CardItem, Body } from 'native-base';
 import { COLORS, SIZES, GLOBALSTYLE, TEXTSTYLES } from '../constants';
 
@@ -8,6 +8,17 @@ import { color } from 'react-native-reanimated';
 import * as Animatable from 'react-native-animatable';
 
 const BookingComplete = ({route,navigation}) => {
+    useEffect(()=>{
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            onPress= () => navigation.navigate('VendorDetail')
+          );
+          return () => backHandler.remove();
+          
+      
+    })
+
+
     const Booking= route.params.BookingDetails
     console.log("Booo",Booking)
     return(

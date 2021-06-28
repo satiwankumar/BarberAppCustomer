@@ -38,7 +38,7 @@ const EditProfile = ({ navigation,updateProfile,route,getCurrentProfile,Profile:
     const onSubmit= async ()=>{
         await updateProfile(formData)
         console.log(formData)
-        navigation.navigate('UserProfile')
+        navigation.goBack()
            
         
        

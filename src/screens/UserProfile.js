@@ -2,11 +2,12 @@ import React ,{useEffect,useState} from 'react';
 import { Text, StyleSheet, Image,StatusBar,TouchableOpacity,ScrollView ,ImageBackground} from 'react-native';
 import { Container, Header, Content,Card,CardItem,Body,FooterTab, Form, Item, Input,Icon, Button, View, Label } from 'native-base';
 import {  COLORS, GLOBALSTYLE, SIZES,TEXTSTYLES  } from '../constants'
-import { getCurrentProfile } from '../redux/actions/profile'
 import {logout} from '../redux/actions/auth'
 import {connect} from 'react-redux'
 
-const UserProfile = ({navigation,getCurrentProfile,Profile:{currentProfile,loading},logout}) => {
+
+const UserProfile = ({navigation,Profile:{currentProfile,loading},logout}) => {
+
   const [formData, setFormData] = useState({
 
     firstname: '',
@@ -18,8 +19,8 @@ const UserProfile = ({navigation,getCurrentProfile,Profile:{currentProfile,loadi
 
   const { firstname, lastname, email,address ,image} = formData
  
-useEffect (async () =>{
-  await getCurrentProfile();
+useEffect (() =>{
+  console.log(currentProfile.user.image)
   if (currentProfile && currentProfile.user) {
     setFormData({
       firstname: loading || !currentProfile.user.firstname ? '' : currentProfile.user.firstname,
@@ -31,7 +32,7 @@ useEffect (async () =>{
     });
   
   }
-},[loading,currentProfile])
+},[])
 
 const handleLogout = async() =>{
   await logout()
@@ -44,8 +45,8 @@ const handleLogout = async() =>{
               <StatusBar translucent backgroundColor="transparent" />
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
         <View style={{alignItems:'center',justifyContent:'center',marginTop:50}}>
-          <View style={{height:100,width:100,margin:10,borderRadius:100,overflow:'hidden',borderWidth:2,borderColor:COLORS.secondry,backgroundColor:COLORS.black}}>
-          <Image style={{height:'100%',width:'100%',resizeMode:'cover'}} source={{uri: image}}/>
+          <View>
+          <Image style={{height:100,width:100,resizeMode:'cover',margin:10,borderRadius:100,borderWidth:2,borderColor:COLORS.secondry}} source={{uri: image}}/>
           </View>
 
          
@@ -79,7 +80,7 @@ const handleLogout = async() =>{
                         hasText
                         transparent
                         style={{flexDirection:'row',alignItems:'center',marginTop:15}}
-                        onPress={() => navigation.navigate('EditProfile')}
+                        onPress={() => navigation.navigate('EditProfile',formData)}
                     >
                       <Icon style={{color:COLORS.secondry}} name="create-outline"></Icon>
                         <Text style={{ color: COLORS.secondry, fontWeight: "bold", fontSize: 16}}>Edit Profile</Text>
@@ -111,7 +112,7 @@ const mapStateToProps = (state) => ({
 });
 
 // export default Service;
-export default connect(mapStateToProps,{getCurrentProfile,logout})(UserProfile);
+export default connect(mapStateToProps,{logout})(UserProfile);
 
 // export default UserProfile;
 const styles = StyleSheet.create({
