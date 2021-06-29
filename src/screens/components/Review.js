@@ -6,13 +6,11 @@ import {connect} from 'react-redux'
 import {getShopReviews} from '../../redux/actions/shops'
 
 const Review = ({navigation,getShopReviews,Reviews:{Reviews,loading},shopid}) => {
-    console.log("HHELLOOOOOOOOOO WO",shopid)
     const mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
     // const date =  new Date(item.createdAt)
     useEffect (() =>{
         getShopReviews(shopid)
     },[getShopReviews,shopid])
-    console.log("SHOPP REVIEWS",Reviews)
     return (
         <View>
         {Reviews && Object.keys(Reviews).length > 0?

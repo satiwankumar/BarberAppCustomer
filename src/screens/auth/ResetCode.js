@@ -20,7 +20,7 @@ const ResetCode = ({props, navigation,verifyCode }) => {
         // alert(re.test(e))
     }
     const onSubmit= async()=>{
-        console.log("Verification code",code)
+        console.log("**SENDING VERIFICATION CODE",code)
         if(code == ''){
             Toast.show("Please Enter Code to Proceed.", Toast.SHORT)
             return;

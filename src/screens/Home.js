@@ -11,13 +11,17 @@ import { getUserData } from '../storage/storage';
 import {getCurrentProfile} from '../redux/actions/profile'
 const Home = ({Auth:{isAuthenticated},navigation,route,getCurrentProfile}) => {
   const [keyword,setKeyword] = useState('')
-  console.log("TTTTTTTTTTTTTTTT",route.params,"sjyfh")
-  // const { long ,lat } = route.params
-  // const long = route.params.long
+  console.log("user coords",route.params)
 useEffect(() => {
+  
   getCurrentProfile();
-});
-  console.log('AUTHENTICATIONNN KI VALUEEE',isAuthenticated)
+},[]);
+
+useEffect(()=>{
+console.log(route.params)
+},[route.params])
+
+  console.log('**AUTHENTICATION VALUE',isAuthenticated)
   return (
     <View style={GLOBALSTYLE.screenbg} >
      
@@ -32,7 +36,7 @@ useEffect(() => {
       <Animatable.View style={styles.formPart}
         animation="slideInUp"
       >
-
+{/* 
 <Header searchBar rounded style={{backgroundColor:COLORS.primary}}>
           <Item style={{backgroundColor:COLORS.black,height:50,borderRadius:8}}>
             <Icon name="ios-search" />
@@ -47,7 +51,7 @@ useEffect(() => {
           <Button transparent>
             <Text>Search</Text>
           </Button>
-        </Header>
+        </Header> */}
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 
       

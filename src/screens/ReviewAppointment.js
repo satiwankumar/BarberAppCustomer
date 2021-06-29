@@ -9,16 +9,12 @@ import * as Animatable from 'react-native-animatable';
 
 const ReviewAppointment = ({route,navigation}) => {
     const {Shop , Service ,AppointmentDate ,EmployeeId ,TimeSlot} = route.params
-  console.log("SERVICE AND SHOP", Service)
-  console.log("ud", EmployeeId,TimeSlot)
-  const mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
-  const daylist = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  
     const [CardDetails,setCardDetails] = useState({
         cardNo :'',
         expDate:new Date(),
         cvcCode:''
     })
-    const [itemSelected,setItemSelected] = useState("item1")
     const [isDayPickerVisible, setDayPickerVisibility] = useState(false);
     const showDayPicker = () => {
         setDayPickerVisibility(true);
@@ -46,13 +42,13 @@ const ReviewAppointment = ({route,navigation}) => {
             <Text style={{color:COLORS.white,fontSize:20,textTransform:'uppercase',fontWeight:'bold',paddingHorizontal:12,}}>{Service.title}</Text>
             
         </View>
-        <Text style={{color:COLORS.white,fontSize:16,textAlign:'center',marginTop:6,textTransform:'uppercase'}}> {daylist[AppointmentDate.getDay()].toString() + " - " + mlist[AppointmentDate.getMonth()].toString() + " " + AppointmentDate.getDate().toString() + ", " + AppointmentDate.getFullYear().toString()}</Text>
+        <Text style={{color:COLORS.white,fontSize:16,textAlign:'center',marginTop:6,textTransform:'uppercase'}}> {AppointmentDate}</Text>
         <Text style={{color:COLORS.white,fontSize:16,textAlign:'center',marginTop:6}}>{Shop.address}</Text>
         <Text style={{color:COLORS.secondry,fontSize:17,fontWeight:'bold',marginTop:'15%'}}>Total Amount: ${Service.charges}</Text>
         <TouchableOpacity
                 style={[GLOBALSTYLE.themebtn,styles.alignBtn]}
                 mode="contained"
-               onPress={() => navigation.navigate('Payment',{Shop: Shop, Service: Service , AppointmentDate: AppointmentDate,EmployeeId : EmployeeId , TimeSlot: TimeSlot})}
+               onPress={() => navigation.navigate('Payment',{Shop: Shop, Service: Service , AppointmentDate: AppointmentDate.toString(),EmployeeId : EmployeeId , TimeSlot: TimeSlot})}
                 >
                 <Text style={{ color: 'white', fontSize: 16,textTransform: 'uppercase',textAlign:'center'}}>COMPLETE BOOKING
                 </Text>

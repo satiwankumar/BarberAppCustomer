@@ -6,12 +6,11 @@ import {GET_SERVICES,SERVICES_ERROR,GET_JOBS,JOBS_ERROR} from './types'
 export const getServices = () => async dispatch => {
     try {
     const res = await api.get('/services')
-      console.log('Service ka action',res.data)
       dispatch({
         type: GET_SERVICES,
         payload: res.data
       });
-      console.log("servicessssssssssssss",res.data);
+      console.log("GET SERVICES",res.data);
     } catch (err) {
       console.log(err)
       console.log(err)
@@ -27,7 +26,6 @@ export const getServices = () => async dispatch => {
 export const getJobs = (keyword) => async dispatch => {
   try {
   const res = await api.get(`/jobs?keyword=${keyword}`)
-    console.log('POSTEDD JOBSS',res.data)
     dispatch({
       type: GET_JOBS,
       payload: res.data

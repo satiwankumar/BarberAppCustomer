@@ -1,5 +1,5 @@
 
-import {REGISTER_SUCCESS,REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, DELETE_ACCOUNT, INFO_UPDATED,SUCCESS_FORGOTPASSWORD,SUCCESS_VERIFY_CODE, SESSION_LOADED} from '../actions/types'
+import {REGISTER_SUCCESS,REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, DELETE_ACCOUNT, INFO_UPDATED,SUCCESS_FORGOTPASSWORD,SUCCESS_VERIFY_CODE, SESSION_LOADED, GET_NOTIFICATIONS, GET_NOTIFICATIONS_ERROR} from '../actions/types'
 import AsyncStorage  from '@react-native-community/async-storage'
 import { storeUserData } from '../storage/storage'
 import setAuthToken from '../utils/setAuthToken';
@@ -10,7 +10,8 @@ const initalState={
     loading: true,
     user: null,
     isReg:false,
-    code:null
+    code:null,
+    Notifications:[]
 }
 
 export default function(state = initalState, action){
@@ -18,7 +19,6 @@ export default function(state = initalState, action){
     switch(type){
       
         case USER_LOADED:
-            console.log('LOADED USER DATA',payload)
             storeUserData('@userData',payload)
             return {
                 ...state,
@@ -34,11 +34,8 @@ export default function(state = initalState, action){
                 isReg:true
             }
         case LOGIN_SUCCESS:
-            console.log("login payloadd",payload)
-            // storeUserData('@userData',payload.user)
             setAuthToken(payload.token)
             AsyncStorage.setItem('token',payload.token);
-            console.log("USER TOKENNNNN",payload.token);
             return {
                 ...state,
                 ...payload,
@@ -71,6 +68,20 @@ export default function(state = initalState, action){
                 passwordRecovery:true,
                 loading:false
             }
+            case GET_NOTIFICATIONS:
+          return {
+            ...state,
+            Notifications: payload,
+            loading: false
+      };
+      
+      
+      case GET_NOTIFICATIONS_ERROR:
+        return {
+          ...state,
+          loading:false,
+          Notifications:[],
+        };
         case SUCCESS_VERIFY_CODE:
             return {  
                 ...state,

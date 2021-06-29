@@ -20,7 +20,6 @@ const BookingComplete = ({route,navigation}) => {
 
 
     const Booking= route.params.BookingDetails
-    console.log("Booo",Booking)
     return(
         <View style={GLOBALSTYLE.screenbg} >
         <StatusBar translucent backgroundColor="transparent" />

@@ -6,13 +6,11 @@ import {GET_SHOPS,SHOPS_ERROR,GET_SHOPREVIEWS,REVIEW_ERROR,GET_SHOPS_BY_SERVICES
 export const getNearbyShops = (longitude,latitude,keyword) => async dispatch => {
   try {
   const res = await api.get(`/shops?log=${longitude}&lat=${latitude}&keyword=${keyword}`)
-  // const res = await api.get('/shops')
-    console.log('nearby shops',res.data)
     dispatch({
       type: GET_SHOPS,
       payload: res.data
     });
-    console.log("Nearby shopsss",res.data);
+    console.log("GET NEARBY SHOPS",res.data);
   } catch (err) {
     console.log(err)
     console.log(err)
@@ -27,13 +25,12 @@ export const getNearbyShops = (longitude,latitude,keyword) => async dispatch => 
 export const shopsByService = (service_id) => async dispatch => {
   try {
     const body = JSON.stringify({ service_id })
-    console.log("SESESEESESESEESESEESEESEESEES",body)
   const res = await api.post('/shops/service', body)
     dispatch({
       type: GET_SHOPS_BY_SERVICES,
       payload: res.data
     });
-    console.log("SHOP BYY SERVICEEEE",res.data);
+    console.log("GET SHOPS BY SERVICE",res.data);
   } catch (err) {
     console.log(err)
     console.log(err)
@@ -50,14 +47,12 @@ export const getShopReviews = (shop) => async dispatch => {
     try {
       
       const body = JSON.stringify({ shop })
-      console.log('Shop ky REVIEEWSSSSSSSSSSSSSSSSSSSSSSSSSSSSS',body)
     const res = await api.post('/review/shop', body)
-      console.log('Shop ky reviews',res.data)
+      console.log('GET SHOP REVIEWS',res.data)
       dispatch({
         type: GET_SHOPREVIEWS,
         payload: res.data
       });
-      console.log("reviewsss",res.data);
     } catch (err) {
       console.log(err)
       dispatch({
@@ -73,14 +68,12 @@ export const getShopReviews = (shop) => async dispatch => {
     try {
       
       const body = JSON.stringify({ shop })
-      console.log('Shop ky packages',body)
     const res = await api.post('/packages', body)
-      console.log('Shop ky reviews',res.data)
+      console.log('SHOP PACKAGES',res.data)
       dispatch({
         type: GET_PACKAGES,
         payload: res.data
       });
-      console.log("packagessss",res.data);
     } catch (err) {
       console.log(err)
       dispatch({
@@ -95,7 +88,7 @@ export const getShopReviews = (shop) => async dispatch => {
 
     try {
         const res = await api.get(`/shops/${shop_id}`);
-        console.log("get SHOPPBY IDD",res)
+        console.log("GET SHOP BY ID",res.data)
         dispatch({
             type: GET_SHOP_BY_ID,
             payload: res.data

@@ -12,13 +12,16 @@ import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 
 const LocationAccess =({navigation}) => {
   const [GrantedPermission,setGrantedPermission] = useState(false)
+  const [userLocation,setUserLocation] = useState(null)
   const getloc = async  () =>{
     RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
         interval: 10000,
         fastInterval: 5000,
       })
         .then(() => {
-          Geolocation.getCurrentPosition(data => navigateToHome(data),
+          Geolocation.getCurrentPosition(data => {
+            navigateToHome(data)
+            },
                 error => console.log(error),
                 {
                     enableHighAccuracy: false,
@@ -32,8 +35,12 @@ const LocationAccess =({navigation}) => {
         }); 
   }
 const navigateToHome = async (data) =>{
-  console.log(data.coords)
-  navigation.navigate('Home',{currentLocation : data.coords})
+  await setUserLocation(data.coords)
+  console.log("**SENDING LOCATION COORDS",userLocation)
+if(userLocation !== null){
+  navigation.navigate('Home',{userLocation})
+}
+  
 }
   const requestLocationPermission = async () => {
     try {

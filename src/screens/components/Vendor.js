@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import {useRoute} from '@react-navigation/native';
 
 const Vendor = ({navigation,getNearbyShops,Shops:{Shops,loading},keyword}) => {
-    console.log("HOLLA",keyword)
+  
     
     useEffect (() =>{
         getNearbyShops( 67.80424,25.18236,keyword)

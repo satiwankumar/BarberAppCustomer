@@ -11,7 +11,6 @@ export default function(state = initialState, action){
 
     switch(type){
         case GET_SERVICES:
-            console.log('REDUCER OF SERIVES',payload)
             return {
                 ...state,
                 loading:false,

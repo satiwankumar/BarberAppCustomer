@@ -27,7 +27,7 @@ const SignUp = ({ navigation }) => {
     const { firstname, lastname, email, password, image, confirmpassword } = formData
 
     const onSubmit = () => {
-        console.log('First Screen Data', firstname, lastname, email, password, image)
+        console.log('**SENDING FIRST SCREEN DATA', firstname, lastname, email, password, image)
         if (email == '' || firstname == '' || lastname == '') {
             Toast.show("Incomplete Information Provided!", Toast.SHORT)
             return;
@@ -65,7 +65,6 @@ const SignUp = ({ navigation }) => {
             height: 400,
             cropping: false
         }).then(avatar => {
-            console.log("Image", avatar);
             setFormData({ ...formData, image: avatar.path })
             
             

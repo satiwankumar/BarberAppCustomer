@@ -26,7 +26,7 @@ const LoginScreen = ({login,navigation,Auth:{isAuthenticated,loading}}) => {
     useEffect(()=>{
         PushNotification.configure({
             onRegister: function (token) {
-              console.log("FCMcccTOKEN:", token.token);
+              console.log("**SENDING FCM TOKEN:", token.token);
               setFormData({...formData,deviceId : token.token})
             },
         })

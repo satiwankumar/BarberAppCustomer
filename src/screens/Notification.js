@@ -2,47 +2,42 @@ import React from 'react';
 import {View, Text,ScrollView,StyleSheet,StatusBar} from 'react-native';
 import { Container, Header, Content, Accordion, Form, Item, Input, Button, Icon, TouchableOpacity, Card, CardItem, Body } from 'native-base';
 import {  COLORS, SIZES,TEXTSTYLES  } from '../constants'
-import * as Animatable from 'react-native-animatable';
-import PushNotification from "react-native-push-notification";
-import Firebase from '@react-native-firebase/app'
-// import PushNotificationIOS from "@react-native-community/push-notification-ios";
-
-const Notification = () => {
-
-    useEffect(() => {
-        // Firebase.initializeApp(this)
-        PushNotification.configure({
-            onRegister: function (token) {
-              console.log("TOKEN:", token);
-            },
-          
-            onNotification: function (notification) {
-              console.log("NOTIFICATION:", notification);
-              // notification.finish(PushNotificationIOS.FetchResult.NoData);
-            },
-            onAction: function (notification) {
-              console.log("ACTION:", notification.action);
-              console.log("NOTIFICATION:", notification);
-            },
-            onRegistrationError: function(err) {
-              console.error(err.message, err);
-            },
-          
-            permissions: {
-              alert: true,
-              badge: true,
-              sound: true,
-            },
-            popInitialNotification: true,
-            requestPermissions: true,
-          });
-    })
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+import {getUserNotifications} from '../redux/actions/auth'
+import {connect} from 'react-redux'
+const Notification = ({getUserNotifications,Auth:{Notifications}}) => {
+  useEffect(() => {
+    getUserNotifications();
+  },[]);
     return(
-       <Text></Text>
+      <Container style={styles.container}>
+      <StatusBar translucent backgroundColor="transparent" />
+<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+<View style={{paddingHorizontal:10}}>
+<Text style={TEXTSTYLES.sectionHead}>Notifications</Text>
+{ Notifications && Object.keys(Notifications).length>0?
+            Notifications.data.map((item,index)=>(
+              <Card key={index} style={{backgroundColor:COLORS.black,padding:10,borderColor:COLORS.transparent,width:'96%',alignSelf:'center'}} >
+<Text style={{color:COLORS.lightGray}}>{moment(item?.date).format('LL')}</Text>
+<Text style={{color:COLORS.white ,fontSize:16,fontWeight:'bold',textTransform:'uppercase',letterSpacing:1}}>{item?.title}</Text>
+<Text style={{color:COLORS.lightGray}}>{item?.body}</Text>
+
+</Card>
+
+            )): null}
+
+
+</View>
+</ScrollView>
+</Container>
     )
 }
 
-export default Notification;
+const mapStateToProps = (state) => ({
+  Auth : state.auth
+});
+export default connect(mapStateToProps,{getUserNotifications})(Notification);
 const styles = StyleSheet.create({
     container: {
       backgroundColor: COLORS.primary,

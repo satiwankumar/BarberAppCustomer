@@ -4,24 +4,25 @@ import { Container, Header, Content,Card,CardItem,Body,FooterTab, Form, Item, In
 import {  COLORS,TEXTSTYLES  } from '../constants'
 import { connect, useDispatch } from 'react-redux'
 import { bookingStatus, getBookings } from '../redux/actions/booking'
-
+import moment from 'moment';
+import { color } from 'react-native-reanimated';
 const UserBookings = ({getBookings,Bookings: {Bookings,loading}}) => {
   const [cancelAlert, setCancelAlert] = useState(false)
   const [paymentAlert, setPaymentAlert] = useState(false)
   const dispatch = useDispatch()
 
-  const mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
+  
   useEffect(() => {
     getBookings()
-  },[getBookings])
+  },[getBookings,loading])
 
-  console.log('BOOKINH',Bookings)
 
   const displayCancelAlert = (id) => {
     const data = {
       booking_id:id,
       status:"Cancelled"
     }
+    
     Alert.alert(
       "Cancel Booking Appointment",
       "Payment by card will be returned within 5 business days.",
@@ -49,8 +50,8 @@ const UserBookings = ({getBookings,Bookings: {Bookings,loading}}) => {
             Bookings.data.map((item,index)=>(
               <Card key={item._id} style={{backgroundColor:'#000',borderRadius:5}}>
                 {
-                  item.status != 'Cancelled' ? (
-                    <View style={{alignSelf:'flex-end', margin:10}}>
+                  item.status == 'Accepted' || item.status == 'Pending'   ? (
+                    <View style={{alignSelf:'flex-end', marginTop:10,marginRight:10}}>
                     <TouchableOpacity onPress={()=>displayCancelAlert(item._id)}>
                       <Icon style={{color:COLORS.lightGray,fontSize:20}} name="close-sharp"></Icon>
                     </TouchableOpacity>
@@ -60,13 +61,15 @@ const UserBookings = ({getBookings,Bookings: {Bookings,loading}}) => {
               <CardItem style={{backgroundColor:COLORS.transparent}}>
                 <Body style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                     <View>
-                    <Text style={{color:COLORS.white,textTransform:'uppercase',fontSize:17}}>
+                    <Text style={{color:COLORS.white,textTransform:'uppercase',fontSize:17,fontWeight:'bold'}}>
                       {item.service.title}
                     </Text>
                     
                   
                   <Text style={{color:COLORS.white,marginBottom:2}}>By {item.shop.title}</Text>
-                  <Text style={{color:COLORS.white,marginBottom:10}}>{mlist[new Date(item.createdAt).getMonth()]} {new Date(item.createdAt).getDate()}, {new Date(item.createdAt).getFullYear()} Time: ({item.time.split(',',1)})</Text>
+                  <Text style={{color:COLORS.white,marginBottom:10,textTransform:'uppercase',fontSize:12}}>{moment(item.date).format('LL')} ({item.time})</Text>
+                 
+                    
                     </View>
                  
                   <Text style={{color:COLORS.secondry,fontSize:20}}>
@@ -78,10 +81,10 @@ const UserBookings = ({getBookings,Bookings: {Bookings,loading}}) => {
                 </Body>
         
               </CardItem>
-                  <View style={{margin:10, alignSelf:'flex-end'}}>
-                    {
-                      item.status == "Cancelled" ? <Text style={{color:'#c54141'}}>CANCELLED</Text> : <Text style={{color:'green'}}>CONFIRM</Text>
-                    }
+                  <View style={{marginBottom:10, alignSelf:'flex-end',marginRight:20}}>
+                  
+                    <Text style={item.status == "Cancelled" ? {color:'#923f3f',textTransform:'uppercase'} : (item.status == "Accepted" ? {color:'#50923f',textTransform:'uppercase'} : {color:'#5858c3',textTransform:'uppercase'})}>{item.status}</Text>
+                  
                   </View>
             </Card>
 

@@ -9,13 +9,12 @@ import * as Animatable from 'react-native-animatable';
 import Toast from 'react-native-simple-toast';
 import { connect } from 'react-redux'
 import { createBookings } from '../redux/actions/booking'
-
+import moment from 'moment';
 
 const Payment = ({route,navigation,createBookings}) => {
     const {Shop , Service ,AppointmentDate ,EmployeeId ,TimeSlot} = route.params
     const [itemSelected,setItemSelected] = useState("pay_in_person")
     const [isDayPickerVisible, setDayPickerVisibility] = useState(false);
-    console.log('SAB ARAH HAII',route.params)
     const [BookDetails,setBookDetails] = useState({
         service: Service._id,
         charges :Service.charges,
@@ -23,7 +22,7 @@ const Payment = ({route,navigation,createBookings}) => {
         shop: Shop._id,
         date: AppointmentDate,
         time: TimeSlot.startTime.toString(),
-        endTime:TimeSlot.endTime.toString(),
+        endtime:TimeSlot.endTime.toString(),
         payment_method: itemSelected,
         cardNo :'',
         expDate:new Date(),
@@ -46,7 +45,7 @@ const Payment = ({route,navigation,createBookings}) => {
         //     Toast.show("CVV Code must be 3 Digit" , Toast.SHORT)
         // }
         else{
-            console.log("Booking Details" ,BookDetails)
+            console.log("**CONFIRM BOOKING DATA SENDING" ,BookDetails)
             await createBookings(BookDetails)
             navigation.navigate('BookingComplete',{BookDetails:BookDetails})
         }
@@ -80,7 +79,7 @@ const Payment = ({route,navigation,createBookings}) => {
         setDayPickerVisibility(false);
       };
       const handleConfirmDay = (date) => {
-        setBookDetails({...BookDetails,expDate:date})
+        setBookDetails({...BookDetails,expDate:moment(date).utc('MM-DD-YYYY')})
         hideDayPicker();
       };
     return(
@@ -94,6 +93,7 @@ const Payment = ({route,navigation,createBookings}) => {
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{backgroundColor:COLORS.black,width:'90%',alignSelf:'center',padding:10,borderRadius:4,paddingVertical:20,marginBottom:20}}>
         <ListItem  onPress={() => setItemSelected("pay_in_person")} style={{borderColor:COLORS.transparent}} >
             <Radio
+            
                onPress={() => setItemSelected("pay_in_person")}
                 color={COLORS.secondry}
                 selectedColor={COLORS.secondry}
@@ -157,7 +157,7 @@ const Payment = ({route,navigation,createBookings}) => {
                        placeholderTextColor={COLORS.darkgray}
                        placeholder="Expiry Date"
                        autoCapitalize="none"
-                       value={expDate.getDate().toString() + "/" + expDate.getMonth().toString()+ "/" + expDate.getFullYear().toString()}
+                       value={moment(expDate).format('LL')}
                        onChangeText={(e)=>setBookDetails({...BookDetails,expDate:e})}
                        disabled={true}
                    />
@@ -169,6 +169,7 @@ const Payment = ({route,navigation,createBookings}) => {
           mode="date"
           onConfirm={handleConfirmDay}
           onCancel={hideDayPicker}
+          minimumDate={moment().toDate()}
         />
             </Animatable.View> : null
             

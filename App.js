@@ -15,9 +15,7 @@ const App = () => {
 
   useEffect(async()=>{
     await store.dispatch(loadSession());
-
-    // NOTIFICATION
-      // Firebase.initializeApp(this)
+    // Firebase.initializeApp(this)
       PushNotification.configure({
           onRegister: function (token) {
             // AsyncStorage.setItem('fcmToken',token.token);
@@ -26,6 +24,11 @@ const App = () => {
         
           onNotification: function (notification) {
             console.log("NOTIFICATION:", notification);
+            notification.foreground;
+        notification.userInteraction=true;
+        notification.message="New Notification";
+        notification.alert=notification.message;
+        PushNotification.localNotification(notification)
             // notification.finish(PushNotificationIOS.FetchResult.NoData);
           },
           onAction: function (notification) {

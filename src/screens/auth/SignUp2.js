@@ -68,7 +68,7 @@ const SignUp2 = ({ register, Auth:{isAuthenticated,loading},navigation,route  })
 if(image !== null) {
     await ImgToBase64.getBase64String(image)
     .then(base64String => {
-        console.log(base64String)
+        console.log("**IMAGE IN BASE 64 FORMAT",base64String)
         setformData({ ...formData, image: base64String })
 
     }
@@ -79,7 +79,7 @@ if(image !== null) {
     );
 }
       
-        console.log("FINALDATA GOINGGG", formData)
+        console.log("**SENDING FINAL SIGNUP DATA", formData)
         register(formData,navigation)
        
 
@@ -87,7 +87,6 @@ if(image !== null) {
     }
 
     const renderItem = ({item, index}) => {
-      console.log(item.description);
       return (
         <View
           key={index}

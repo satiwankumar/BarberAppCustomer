@@ -9,9 +9,6 @@ import Vendor from './components/Vendor'
 const AllServices = ({navigation,route}) => {
   const  passedRoute = route.params;
     const [keyword,setKeyword] = useState('')
-console.log('Keyywordd ayaya',keyword)
-
-  console.log("ALLL TYPESSS",passedRoute.type)
   return (
     
 

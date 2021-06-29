@@ -9,7 +9,6 @@ import {connect} from 'react-redux'
 
 const ServiceProvider = ({shopsByService,ShopsService:{ShopsService,loading},route,navigation}) => {
   const ServiceId = route.params.ServiceId;
-  // const ServiceId ='608075a7a928e83f00c91752';
   const ServiceName = route.params.ServiceName;
  
   useEffect (() =>{
@@ -28,6 +27,7 @@ const ServiceProvider = ({shopsByService,ShopsService:{ShopsService,loading},rou
        {ShopsService && Object.keys(ShopsService).length > 0?
 
 ShopsService.data.map((item,index)=>(
+  <>
   <TouchableOpacity
   key={item._id}
   onPress={() => navigation.navigate('VendorDetail',{shopid: item._id})}
@@ -36,7 +36,7 @@ ShopsService.data.map((item,index)=>(
   <Card style={styles.shopBox}>
       <CardItem style={{backgroundColor:COLORS.transparent,}}>
         <Body>
-        <Image source={{uri: item.image}}
+        <Image source={{uri: 'http://barberp.herokuapp.com/uploads/images/abc.jpg'}}
                    resizeMode="cover"
                      style={styles.shopImg}/>
                      
@@ -51,7 +51,10 @@ ShopsService.data.map((item,index)=>(
         </Body>
       </CardItem>
     </Card>
+
+    
     </TouchableOpacity>
+</>
 )):<Text>No Shop found</Text>}
        </ScrollView>
     </Animatable.View> 
@@ -90,11 +93,7 @@ const styles = StyleSheet.create({
       borderRadius: 8,
       backgroundColor: COLORS.primary,
       width:SIZES.width*0.87,
-      maxWidth:350,
       marginLeft:15,
-      minHeight:290,
-      maxHeight:300,
-      height:SIZES.width*0.82
 
 
   },

@@ -8,10 +8,12 @@ import { Home, ResetCode, ServiceProvider, BookingComplete, ReviewAppointment, E
 import { COLORS } from '../constants';
 import { connect } from 'react-redux'
 import { Icon } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
 const Stack = createStackNavigator();
-const NotificationIcon = ({navigation}) => {
+const NotificationIcon = () => {
+    const navigation = useNavigation();
     return(
-        <TouchableOpacity>
+        <TouchableOpacity  onPress={() => navigation.navigate({name: 'Notification'})}>
             <Icon style={{fontSize:23, color: COLORS.lightGray,marginHorizontal:10}} name='notifications-outline' />
         </TouchableOpacity>
     )
@@ -21,7 +23,7 @@ const Routes = ({ Auth: { isAuthenticated } }) => {
         <NavigationContainer theme={DarkTheme} >
             <Stack.Navigator
              
-                screenOptions={{
+                screenOptions={{ 
                     headerShown: true,
                     title: false,
                     
@@ -35,9 +37,9 @@ const Routes = ({ Auth: { isAuthenticated } }) => {
                 {isAuthenticated ?
                         (
                           <>
-                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="FindServices" component={FindServices} 
+                           <Stack.Screen  name="FindServices" component={FindServices} 
                           ></Stack.Screen>
-                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="LocationAccess" component={LocationAccess} ></Stack.Screen>
+                          <Stack.Screen name="LocationAccess" component={LocationAccess} ></Stack.Screen>
                            <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="Home" component={Tabs} ></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ViewAll" component={ViewAll} ></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="VendorDetail" component={VendorDetail} ></Stack.Screen>
@@ -52,7 +54,7 @@ const Routes = ({ Auth: { isAuthenticated } }) => {
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ReviewAppointment" component={ReviewAppointment}></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="Payment" component={Payment}></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="BookingComplete" component={BookingComplete}></Stack.Screen>
-                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="Notification" component={Notification}></Stack.Screen>
+                          <Stack.Screen name="Notification" component={Notification}></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ResetCode" component={ResetCode}></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ResetPassword" component={ResetPassword}></Stack.Screen>
                         </>

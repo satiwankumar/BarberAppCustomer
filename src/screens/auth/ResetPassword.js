@@ -11,9 +11,8 @@ const ResetPassword = (props,{ navigation,resetPassword }) => {
     const [password,setPassword] = useState(null)
     const [confirmpassword,setConfirmPassword] = useState(null)
     const ResetCode = props.route.params.resetcode;
-    console.log("rerst atyyaya",ResetCode)
     const onSubmit= async()=>{
-        console.log("Verification code",password,confirmpassword,ResetCode)
+        console.log("**SENDING TO RESET PASSWORD",password,confirmpassword,ResetCode)
         resetPassword(password,confirmpassword,ResetCode)
       
     }

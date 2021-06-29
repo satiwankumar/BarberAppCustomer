@@ -37,26 +37,12 @@ const EditProfile = ({ navigation,updateProfile,route,getCurrentProfile,Profile:
       },[loading,getCurrentProfile])
     const onSubmit= async ()=>{
         await updateProfile(formData)
-        console.log(formData)
+        console.log("**SENDING EDIT DATA",formData)
         navigation.goBack()
            
         
        
       }
-
-      const chooseFromGallery = () => {
-        ImagePicker.openPicker({
-            width: 300,
-            height: 400,
-            cropping: false
-        }).then(avatar => {
-            console.log("Image", avatar);
-            setFormData({ ...formData, image: avatar.path })
-            
-            
-
-        });
-    }
 
     return (
         <View style={[GLOBALSTYLE.screenbg,styles.container]} >

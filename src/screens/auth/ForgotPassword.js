@@ -9,7 +9,7 @@ import {connect} from 'react-redux'
 const ForgotPassword = ({navigation,forgotPassword,Auth:{loading} }) => {
     const [email,setEmail] = useState('')
     const onSubmit= async()=>{
-        console.log("Verification code Sent To",email)
+        console.log("**SENDING VERIFICATION EMAIL",email)
          forgotPassword(email,navigation)
         
     }

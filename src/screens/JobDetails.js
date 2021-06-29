@@ -5,11 +5,9 @@ import {  COLORS, SIZES,TEXTSTYLES  } from '../constants'
 import * as Animatable from 'react-native-animatable';
 
 const JobDetails = ({route,navigation}) => {
-    // console.log("irtemmmm",item.shop.title)
     const item= route.params.item
     const mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
-    const date =  new Date(item.shop.createdAt)
-    console.log("dadadda",item._id)
+    const date =  new Date(item.shop?.createdAt)
     return(
         <Container style={styles.container}>
            
@@ -19,17 +17,17 @@ const JobDetails = ({route,navigation}) => {
          animation='fadeInUp'
          style={{padding:20,borderRadius:8,width:'95%',maxWidth:400,alignSelf:'center',height:'auto',backgroundColor:COLORS.black}}>
         <Text style={{ color: COLORS.secondry, textTransform: 'uppercase', fontSize: 17,fontWeight:'bold' }}>
-                  {item.title}
+                  {item?.title}
                 </Text>
-                <Text style={{ color: COLORS.white, marginBottom: 10 }}>{item.shop.title} - {item.shop.address}</Text>
+                <Text style={{ color: COLORS.white, marginBottom: 10 }}>{item?.shop.title} - {item?.shop.address}</Text>
                 <Text style={{ color: COLORS.lightGray }}>
                  Job Posted: {mlist[date.getMonth()]} {date.getDate()}, {date.getFullYear()}
                 </Text>
                 <Text style={{ color: COLORS.lightGray }}>
-                 {item.description}
+                 {item?.description}
                 </Text>
                 <Text style={{ color: COLORS.white,marginTop:10}}>
-                 Send your Resume at: {item.email}
+                 Send your Resume at: {item?.email}
                 </Text>
         </Animatable.View>
         

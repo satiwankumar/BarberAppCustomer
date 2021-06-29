@@ -20,8 +20,7 @@ const VendorDetail = ({ route, navigation, getShopById, Shop: { Shop, loading } 
     getShopById(shopId)
   }, [getShopById, shopId])
 
-  console.log("COLOOO", shopId)
-  console.log("DUKAAANn", Shop)
+  console.log("**GETTING SHOP", Shop)
   const [showAcc1, setshowAcc1] = useState(true)
   const [showAcc2, setshowAcc2] = useState(false)
   const [showAcc3, setshowAcc3] = useState(false)

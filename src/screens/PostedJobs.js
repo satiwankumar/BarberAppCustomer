@@ -7,11 +7,9 @@ import {connect} from 'react-redux'
 
 const PostedJobs = ({navigation,getJobs,Jobs:{Jobs,loading}}) => {
   const [keyword,setKeyword] = useState('')
-console.log('Keyywordd ayaya',keyword)
   useEffect (() =>{
     getJobs(keyword)
 },[keyword])
-console.log("LOAD",Jobs)
   return (
     <Container style={styles.container}>
       <StatusBar translucent backgroundColor="transparent" />

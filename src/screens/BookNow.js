@@ -3,11 +3,12 @@ import { View, Text, StyleSheet,Image,ImageBackground,StatusBar,ScrollView ,Touc
 import { COLORS, SIZES, GLOBALSTYLE, TEXTSTYLES } from '../constants';
 import * as Animatable from 'react-native-animatable';
 import { Container, Header, Content, Form, Item, Input, Button,  Label,Icon, Segment,ListItem,Radio } from 'native-base';
-import CalendarPicker from 'react-native-calendar-picker';
 import Team from './components/Team'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { connect } from 'react-redux'
 import { getEmployeesByShopService,getTimeSlots } from '../redux/actions/employees'
+import moment from 'moment';
+
 
 const BookNow = ({route,getEmployeesByShopService,getTimeSlots,Employees:{employees,loading,timelsots},navigation}) => {
   const Shop= route.params.Shop
@@ -15,19 +16,16 @@ const BookNow = ({route,getEmployeesByShopService,getTimeSlots,Employees:{employ
   const [empSelected,setEmpSelected] = useState(null)
   const [timeSelected,setEmpTimeSelected] = useState(null)
   useEffect(() => {
-    console.log('SHOPPPPPPPP', Service)
     getEmployeesByShopService(Shop._id,Service._id)
   }, [Shop,Service])
 
     const [appointmentDate,setAppointmentDate] = useState(new Date())
-    const mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
-    const daylist = [ "Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"]
     const [isDayPickerVisible, setDayPickerVisibility] = useState(false);
     const EmployeeSlot = (item) => {
-console.log("Selected emloyee",item)
+console.log("**SELECTED EMPLOYEES",item)
 setEmpSelected(item)
 getTimeSlots(item._id,Service._id,appointmentDate)
-console.log("TIME E ",timelsots)
+console.log("**EMPLOYEE TIMESLOTS ",timelsots)
     }
     const showDayPicker = () => {
         setDayPickerVisibility(true);                        
@@ -35,9 +33,8 @@ console.log("TIME E ",timelsots)
       const hideDayPicker = () => {
         setDayPickerVisibility(false);
       };
-      const handleConfirmDay = (date) => {
-        setAppointmentDate(date)
-        console.log(appointmentDate)
+      const handleConfirmDay = (date)  => {
+        setAppointmentDate(moment(date).utc('MM-DD-YYYY'))
         hideDayPicker();
       };
         return (
@@ -73,7 +70,7 @@ console.log("TIME E ",timelsots)
                        placeholder="SELECT DATE"
                        autoCapitalize="none"
                        disabled={true}
-                       value={daylist[appointmentDate.getDay()].toString() + " - " + mlist[appointmentDate.getMonth()].toString() + " " + appointmentDate.getDate().toString() + ", " + appointmentDate.getFullYear().toString()}
+                       value={moment(appointmentDate).format('LL')}
                    />
                      <Icon onPress={showDayPicker} style={{color:COLORS.lightGray}} name="calendar-outline"></Icon>
                </Item>
@@ -83,6 +80,7 @@ console.log("TIME E ",timelsots)
         mode="date"
         onConfirm={handleConfirmDay}
         onCancel={hideDayPicker}
+        minimumDate={moment().toDate()}
       />
                
                     
@@ -93,19 +91,20 @@ console.log("TIME E ",timelsots)
 
 employees.data.map((item,index)=>(
         
-        <ListItem key={index}  onPress={() => EmployeeSlot(item)} style={{borderColor:COLORS.transparent,padding:0,margin:0,marginLeft:0,marginRight:0,paddingLeft:0,paddingRight:0}} >
+        <TouchableOpacity key={item._id}  onPress={() => EmployeeSlot(item)} style={{borderColor:COLORS.transparent,padding:0,margin:0,marginLeft:0,marginRight:0,paddingLeft:0,paddingRight:0}} >
         <Radio
         onPress={() => EmployeeSlot(item)}
             color={COLORS.transparent}
             selectedColor={COLORS.transparent}
             selected={empSelected == item ? true : false}
             style={{padding:0,margin:0}}
+           
           />
           
-           <View key={item._id}   style={empSelected == item ? styles.selectedTeam : styles.notSelected} >
+           <View style={empSelected == item ? styles.selectedTeam : styles.notSelected} >
            <Team   imageUri={{uri: item.image}} memberName ={item.name}/>
          </View>
-      </ListItem>
+      </TouchableOpacity>
 
         
         
@@ -116,7 +115,7 @@ employees.data.map((item,index)=>(
           
             </ScrollView>
 
-            <Text style={TEXTSTYLES.sectionHead}>Availible time slots </Text>
+            <Text style={[TEXTSTYLES.sectionHead,styles.mb]}>Availible time slots </Text>
             <ScrollView scrollEventThrottle={16} horizontal={true}  showsHorizontalScrollIndicator={false}>
 {
   empSelected !== null  ? 
@@ -128,7 +127,7 @@ timelsots.hours.map((item,index) => (
   <>
   
 
-                <ListItem key={index}  onPress={() => setEmpTimeSelected(item)}   style={{borderColor:COLORS.transparent,padding:0,margin:0,marginLeft:0,marginRight:0,paddingLeft:0,paddingRight:0}} >
+                <TouchableOpacity key={index} disabled={item.available ? false : true}  onPress={() => setEmpTimeSelected(item)}   style={{borderColor:COLORS.transparent,marginHorizontal:4}} >
         <Radio
         onPress={() => setEmpTimeSelected(item)}
             color={COLORS.transparent}
@@ -138,11 +137,11 @@ timelsots.hours.map((item,index) => (
           />
           
            <View >
-           <View style={timeSelected == item ? styles.timeSelect : styles.time}>
-                <Text style={{color:COLORS.white,textTransform:'uppercase'}}>{item.startTime} - {item.endTime}</Text>
+           <View style={timeSelected == item ? styles.timeSelect : (item.available ?  styles.time : styles.disabledTime)}>
+                <Text style={{color:COLORS.white,textTransform:'uppercase'}}>{item.startTime }{item.available} - {item.endTime}</Text>
                 </View>
          </View>
-      </ListItem>
+      </TouchableOpacity>
                 </>
                 )): null
             }
@@ -154,7 +153,7 @@ timelsots.hours.map((item,index) => (
        
           
     </ScrollView>
-    <Button disabled={empSelected !== null && timeSelected !== null ? false : true} style={empSelected !== null && timeSelected !== null ? GLOBALSTYLE.themebtn : styles.disbaleBtn} onPress={()=> navigation.navigate('ReviewAppointment',{Shop: Shop, Service: Service , AppointmentDate: appointmentDate , EmployeeId : empSelected._id , TimeSlot: timeSelected})}>
+    <Button disabled={empSelected !== null && timeSelected !== null ? false : true} style={empSelected !== null && timeSelected !== null ? GLOBALSTYLE.themebtn : styles.disbaleBtn} onPress={()=> navigation.navigate('ReviewAppointment',{Shop: Shop, Service: Service , AppointmentDate: appointmentDate.toString() , EmployeeId : empSelected._id , TimeSlot: timeSelected})}>
                         <Text style={{color:COLORS.white,textTransform:'uppercase'}}>Review appointment</Text>
                     </Button>
                </ScrollView>
@@ -180,6 +179,9 @@ const styles = StyleSheet.create({
         paddingVertical:30,
         paddingHorizontal:10
     },
+    mb:{
+      marginBottom:10
+    },
     inputBox:{
       backgroundColor:COLORS.black,
       borderColor:COLORS.transparent,
@@ -199,6 +201,15 @@ const styles = StyleSheet.create({
     datePicker:{
         alignSelf:'center'
     
+    },
+    disabledTime:{
+      borderWidth:1,
+      borderColor:COLORS.lightGray,
+      paddingVertical:10,
+      paddingHorizontal:20,
+      marginRight:0,
+      borderRadius:30,
+      opacity:0.3
     },
     disbaleBtn:{ 
       marginTop: 20,

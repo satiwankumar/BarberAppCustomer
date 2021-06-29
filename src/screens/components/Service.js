@@ -9,13 +9,10 @@ import {connect} from 'react-redux'
 
 
 const Service = ({navigation,getServices,Services:{Services,loading},Shop:{Shop}}) => {
-    console.log("SERVICE KY PROSPPSS",Services,"Loadding",loading)
 useEffect (() =>{
     getServices()
 },[getServices])
     const route = useRoute();
-console.log(route)
-console.log("rounem:"+route.name);
 
     return (
         <>

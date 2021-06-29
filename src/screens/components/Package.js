@@ -6,11 +6,10 @@ import {getShopPackages} from '../../redux/actions/shops'
 import {connect} from 'react-redux'
 
 const Package = ({navigation,getShopPackages,Packages:{Packages,loading},shopid}) => {
-    console.log('ORIGINAL IDD',shopid)
+  
     useEffect (() =>{
         getShopPackages('60845b31dc8bd5284098c869')
     },[getShopPackages.shopid])
-    console.log("SHOPPP PACKAGEEE",Packages)
     return (
         <>
         {Packages && Object.keys(Packages).length > 0?
