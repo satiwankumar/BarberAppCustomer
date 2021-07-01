@@ -97,7 +97,7 @@ employees.data.map((item,index)=>(
             color={COLORS.transparent}
             selectedColor={COLORS.transparent}
             selected={empSelected == item ? true : false}
-            style={{padding:0,margin:0}}
+            style={{position:'absolute'}}
            
           />
           
@@ -132,7 +132,7 @@ timelsots.hours.map((item,index) => (
         onPress={() => setEmpTimeSelected(item)}
             color={COLORS.transparent}
             selectedColor={COLORS.transparent}
-            style={{padding:0,margin:0}}
+            style={{position:'absolute'}}
             selected={timeSelected == item ? true : false}
           />
           
@@ -153,9 +153,12 @@ timelsots.hours.map((item,index) => (
        
           
     </ScrollView>
-    <Button disabled={empSelected !== null && timeSelected !== null ? false : true} style={empSelected !== null && timeSelected !== null ? GLOBALSTYLE.themebtn : styles.disbaleBtn} onPress={()=> navigation.navigate('ReviewAppointment',{Shop: Shop, Service: Service , AppointmentDate: appointmentDate.toString() , EmployeeId : empSelected._id , TimeSlot: timeSelected})}>
+    <View style={{marginTop:20}}>
+    <Button  disabled={empSelected !== null && timeSelected !== null ? false : true} style={empSelected !== null && timeSelected !== null ? GLOBALSTYLE.themebtn : styles.disbaleBtn} onPress={()=> navigation.navigate('ReviewAppointment',{Shop: Shop, Service: Service , AppointmentDate: appointmentDate.toString() , EmployeeId : empSelected._id , TimeSlot: timeSelected})}>
                         <Text style={{color:COLORS.white,textTransform:'uppercase'}}>Review appointment</Text>
                     </Button>
+    </View>
+    
                </ScrollView>
             </Animatable.View>
            </View>

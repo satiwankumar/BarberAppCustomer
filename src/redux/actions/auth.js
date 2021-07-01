@@ -122,16 +122,21 @@ export const forgotPassword = (email,navigation) => async dispatch => {
         const res = await api.post('/auth/forgot', body)
         dispatch({
             type: SUCCESS_FORGOTPASSWORD,
-            payload: email
+            payload: res
         });
        Toast.show("Password Recovery Code Sent. ", Toast.SHORT)
-       navigation.navigate('ResetCode')
+    //    navigation.navigate('ResetCode')
+    navigation.navigate('ResetCode',{screen: 'ResetCode'})
+       
        
       
     }
     catch (err) {
-        console.log("FORGOT PASSWORD ERROR",err.response.data.message)
-        Toast.show("Email not Found!", Toast.SHORT)
+        console.log( err.response.data)
+        const errors = err.response.data.errors
+        if(errors){
+            errors.forEach(error => Toast.show(JSON.stringify(error.msg), Toast.SHORT))
+        } 
       
         dispatch(
             {
@@ -144,7 +149,7 @@ export const forgotPassword = (email,navigation) => async dispatch => {
 // END: FORGOT PASSWORD
 
 // BEGIN: VERIFY CODE
-export const verifyCode = (resetCode) => async dispatch => {
+export const verifyCode = (resetCode,navigation) => async dispatch => {
 
     const body = JSON.stringify({ resetCode })
     console.log("VERIFY CODE API")
@@ -157,6 +162,8 @@ export const verifyCode = (resetCode) => async dispatch => {
         });
 
         Toast.show("Code Verified, Please Set your New Password.", Toast.SHORT)
+        navigation.navigate('ResetPassword', { resetcode : resetCode})
+       
         
 
     }
@@ -180,21 +187,22 @@ export const verifyCode = (resetCode) => async dispatch => {
 
 }
 
-export const resetPassword = (newpassword, confirmpassword, resetCode) => async dispatch => {
-    const body = JSON.stringify({ newpassword, confirmpassword })
+export const resetPassword = (code, newpassword, confirmpassword,navigation ) => async dispatch => {
+    const body = JSON.stringify({ code, newpassword, confirmpassword })
+    console.log('RESET PASS')
     try {
-        const res = await api.post(`/auth/reset/${resetCode}`, body)
-        console.log("RESET PASSWORD",res.data.message)
+       
+        const res = await api.post(`/auth/reset/${code}`, body)
         dispatch({
             type: SUCCESS_VERIFY_CODE,
             payload: res.data
         });
 
-        Toast.show("Password Updated", Toast.SHORT)
-
+        Toast.show("Password Updated Succesfully!", Toast.SHORT)
+        navigation.navigate('LoginScreen',{screen: 'LoginScreen'})
     }
     catch (err) {
-
+        Toast.show("Password Update Failed", Toast.SHORT)
         const errors = err.response.data.errors;
         console.log(err.response)
         if (errors) {

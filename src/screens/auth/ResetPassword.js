@@ -1,19 +1,32 @@
 import React,{useState} from 'react';
 import { Text, StyleSheet,StatusBar,ScrollView } from 'react-native';
-import { Item, Input, Button, View, Label } from 'native-base';
+import { Item, Input, Button, View, Label,Icon } from 'native-base';
 import { COLORS, SIZES, GLOBALSTYLE } from '../../constants';
 import * as Animatable from 'react-native-animatable';
 import {resetPassword} from '../../redux/actions/auth'
 import {connect} from 'react-redux'
 import Toast from 'react-native-simple-toast';
 
-const ResetPassword = (props,{ navigation,resetPassword }) => {
+const ResetPassword = ({ navigation,resetPassword,route }) => {
     const [password,setPassword] = useState(null)
     const [confirmpassword,setConfirmPassword] = useState(null)
-    const ResetCode = props.route.params.resetcode;
+    const [iconName, setIconName] = useState(false)
+    const [iconName2, setIconName2] = useState(false)
+    const code = route.params.resetcode;
     const onSubmit= async()=>{
-        console.log("**SENDING TO RESET PASSWORD",password,confirmpassword,ResetCode)
-        resetPassword(password,confirmpassword,ResetCode)
+        console.log("**SENDING TO RESET PASSWORD",password,confirmpassword,code)
+        if (password == '' || confirmpassword == '') {
+            Toast.show("Empty Password Field!", Toast.SHORT)
+            return;
+        }
+        else if (password !== confirmpassword) {
+            Toast.show("Password MisMatch!", Toast.SHORT)
+            return;
+        }
+        else{
+            resetPassword(code ,password, confirmpassword,navigation )
+        }
+        
       
     }
     return (
@@ -37,10 +50,11 @@ const ResetPassword = (props,{ navigation,resetPassword }) => {
                             style={styles.textContent}
                             autoCorrect={false}
                             autoCapitalize="none"
-                            secureTextEntry={true}
+                             secureTextEntry={iconName?false:true}
                             placeholderTextColor={COLORS.white}
                             onChangeText={(e) => setPassword(e)}
                         />
+                          <Icon onPress={()=>setIconName(!iconName)} style={{color:COLORS.lightGray,position:'absolute',right:0,fontSize:20}} name={iconName?"eye-outline":"eye-off-outline"} ></Icon>
                     </Item>
                     <Item
                         floatingLabel
@@ -51,10 +65,11 @@ const ResetPassword = (props,{ navigation,resetPassword }) => {
                             style={styles.textContent}
                             autoCorrect={false}
                             autoCapitalize="none"
-                            secureTextEntry={true}
+                             secureTextEntry={iconName2?false:true}
                             placeholderTextColor={COLORS.white}
                             onChangeText={(e) => setConfirmPassword(e)}
                         />
+                          <Icon onPress={()=>setIconName2(!iconName2)} style={{color:COLORS.lightGray,position:'absolute',right:0,fontSize:20}} name={iconName2?"eye-outline":"eye-off-outline"} ></Icon>
                     </Item>
                 <Button
                     style={GLOBALSTYLE.themebtn}
@@ -117,7 +132,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 8,
         borderColor: COLORS.transparent,
-        marginTop: 20
+        marginTop: 20,
+        paddingHorizontal:15
     },
     labelContent: {
         color: COLORS.lightGray,

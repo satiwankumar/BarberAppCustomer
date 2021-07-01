@@ -1,6 +1,6 @@
 import api from '../utils/api'
 import {GET_BOOKING_ERROR,GET_BOOKINGS,CREATE_BOOKINGS,BOOKING_ERROR} from './types'
-
+import Toast from 'react-native-simple-toast';
 
 // Get all bookings
 export const getBookings = () => async dispatch => {
@@ -22,7 +22,7 @@ export const getBookings = () => async dispatch => {
     }
   };
 
-  export const createBookings = (bookingDetails) => async dispatch => {
+  export const createBookings = (bookingDetails,navigation) => async dispatch => {
     console.log('BOOKING DETAILS',bookingDetails)
     try {
     const res = await api.post('/bookings/create' ,bookingDetails)
@@ -31,8 +31,11 @@ export const getBookings = () => async dispatch => {
         type: CREATE_BOOKINGS,
         payload: res.data
       });
+      navigation.navigate('BookingComplete',{BookDetails:bookingDetails})
     } catch (err) {
       console.log("CREATE BOOKING ERROR",err.response.data)
+      Toast.show("Booking Failed!", Toast.SHORT)
+      navigation.navigate('BookNow')
       dispatch({
         type: BOOKING_ERROR,
         payload:err
@@ -46,18 +49,18 @@ export const getBookings = () => async dispatch => {
     try{
       console.log("BOOKING STATUS",data)
       const res = await api.post('/bookings/status',data)
-      
+      console.log("BOOKING STATUS BEFORE CANCELLING",data)
       dispatch({
         type:CANCEL_BOOKING,
         payload:res.data
-      })
-      dispatch(getBookings())
-    }catch(err){
-      console.log("BOOKING STATUS ERROR",err.response.data)
+      });
+      console.log("BOOKING STATUS",res.data)
+    } catch(err){
+      console.log("BOOKING STATUS ERROR")
       dispatch({
         type: BOOKING_ERROR,
         payload:err
         
       });
     }
-  }
+  };

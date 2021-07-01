@@ -6,11 +6,12 @@ import {getNearbyShops} from '../../redux/actions/shops'
 import {connect} from 'react-redux'
 import {useRoute} from '@react-navigation/native';
 
-const Vendor = ({navigation,getNearbyShops,Shops:{Shops,loading},keyword}) => {
+const Vendor = ({navigation,getNearbyShops,Shops:{Shops,loading},keyword,latitude,longitude}) => {
   
     
     useEffect (() =>{
-        getNearbyShops( 67.80424,25.18236,keyword)
+        console.log("LONGITUDE,LATITUDE",longitude,latitude)
+        getNearbyShops( latitude,longitude,keyword)
     },[keyword])
     const route = useRoute();
     return (

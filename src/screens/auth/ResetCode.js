@@ -26,8 +26,8 @@ const ResetCode = ({props, navigation,verifyCode }) => {
             return;
         }
         else{
-            await verifyCode(code)
-            navigation.navigate('ResetPassword',{resetcode : code})
+            await verifyCode(code,navigation)
+            // navigation.navigate('ResetPassword',{resetcode : code})
         }
 
         
@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 8,
         borderColor: COLORS.transparent,
-        marginTop: 20
+        marginTop: 20,
+        paddingHorizontal:15
     },
     labelContent: {
         color: COLORS.lightGray,

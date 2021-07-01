@@ -50,9 +50,9 @@ const UserBookings = ({getBookings,Bookings: {Bookings,loading}}) => {
             Bookings.data.map((item,index)=>(
               <Card key={item._id} style={{backgroundColor:'#000',borderRadius:5}}>
                 {
-                  item.status == 'Accepted' || item.status == 'Pending'   ? (
+                  item?.status == 'Accepted' || item?.status == 'Pending'   ? (
                     <View style={{alignSelf:'flex-end', marginTop:10,marginRight:10}}>
-                    <TouchableOpacity onPress={()=>displayCancelAlert(item._id)}>
+                    <TouchableOpacity onPress={()=>displayCancelAlert(item?._id)}>
                       <Icon style={{color:COLORS.lightGray,fontSize:20}} name="close-sharp"></Icon>
                     </TouchableOpacity>
                     </View>
@@ -62,18 +62,18 @@ const UserBookings = ({getBookings,Bookings: {Bookings,loading}}) => {
                 <Body style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                     <View>
                     <Text style={{color:COLORS.white,textTransform:'uppercase',fontSize:17,fontWeight:'bold'}}>
-                      {item.service.title}
+                      {item?.service.title}
                     </Text>
                     
                   
-                  <Text style={{color:COLORS.white,marginBottom:2}}>By {item.shop.title}</Text>
-                  <Text style={{color:COLORS.white,marginBottom:10,textTransform:'uppercase',fontSize:12}}>{moment(item.date).format('LL')} ({item.time})</Text>
+                  <Text style={{color:COLORS.white,marginBottom:2}}>By {item?.shop.title}</Text>
+                  <Text style={{color:COLORS.white,marginBottom:10,textTransform:'uppercase',fontSize:12}}>{moment.utc(item?.date.toLocaleString()).format("LL")} ({item?.time})</Text>
                  
                     
                     </View>
                  
                   <Text style={{color:COLORS.secondry,fontSize:20}}>
-                 $ {item.charges}
+                 $ {item?.charges}
                   </Text>
 
                 
@@ -83,7 +83,7 @@ const UserBookings = ({getBookings,Bookings: {Bookings,loading}}) => {
               </CardItem>
                   <View style={{marginBottom:10, alignSelf:'flex-end',marginRight:20}}>
                   
-                    <Text style={item.status == "Cancelled" ? {color:'#923f3f',textTransform:'uppercase'} : (item.status == "Accepted" ? {color:'#50923f',textTransform:'uppercase'} : {color:'#5858c3',textTransform:'uppercase'})}>{item.status}</Text>
+                    <Text style={item.status == "Cancelled" ? {color:'#923f3f',textTransform:'uppercase'} : (item?.status == "Accepted" ? {color:'#50923f',textTransform:'uppercase'} : {color:'#5858c3',textTransform:'uppercase'})}>{item?.status}</Text>
                   
                   </View>
             </Card>

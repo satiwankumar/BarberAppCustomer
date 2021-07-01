@@ -11,15 +11,16 @@ import { getUserData } from '../storage/storage';
 import {getCurrentProfile} from '../redux/actions/profile'
 const Home = ({Auth:{isAuthenticated},navigation,route,getCurrentProfile}) => {
   const [keyword,setKeyword] = useState('')
-  console.log("user coords",route.params)
+  const [lat,setLat] =useState('')
+  const [long,setLong] =useState('')
+  console.log("userert coords",route.params)
 useEffect(() => {
-  
+  setLat(route.params.userLoc.latitude)
+  setLong(route.params.userLoc.longitude)
   getCurrentProfile();
 },[]);
 
-useEffect(()=>{
-console.log(route.params)
-},[route.params])
+
 
   console.log('**AUTHENTICATION VALUE',isAuthenticated)
   return (
@@ -68,7 +69,7 @@ console.log(route.params)
           <Text style={TEXTSTYLES.sectionHead}>Explore In Your Area</Text>
           <View >
             <ScrollView scrollEventThrottle={16} horizontal={true} showsHorizontalScrollIndicator={false} >
-             <Vendor  keyword={keyword}  navigation={navigation}/>
+             <Vendor latitude={lat} longitude={long}  keyword={keyword}  navigation={navigation}/>
              
             </ScrollView>
           </View>

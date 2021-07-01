@@ -37,8 +37,7 @@ const Routes = ({ Auth: { isAuthenticated } }) => {
                 {isAuthenticated ?
                         (
                           <>
-                           <Stack.Screen  name="FindServices" component={FindServices} 
-                          ></Stack.Screen>
+                           <Stack.Screen  name="FindServices" component={FindServices} ></Stack.Screen>
                           <Stack.Screen name="LocationAccess" component={LocationAccess} ></Stack.Screen>
                            <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="Home" component={Tabs} ></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ViewAll" component={ViewAll} ></Stack.Screen>
@@ -55,8 +54,7 @@ const Routes = ({ Auth: { isAuthenticated } }) => {
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="Payment" component={Payment}></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="BookingComplete" component={BookingComplete}></Stack.Screen>
                           <Stack.Screen name="Notification" component={Notification}></Stack.Screen>
-                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ResetCode" component={ResetCode}></Stack.Screen>
-                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ResetPassword" component={ResetPassword}></Stack.Screen>
+                          
                         </>
                         ) :
                         <>
@@ -65,6 +63,8 @@ const Routes = ({ Auth: { isAuthenticated } }) => {
                           <Stack.Screen name="ForgotPassword" component={ForgotPassword}></Stack.Screen>
                           <Stack.Screen name="SignUp" component={SignUp} ></Stack.Screen>
                           <Stack.Screen name="SignUp2" component={SignUp2} ></Stack.Screen>
+                          <Stack.Screen name="ResetCode" component={ResetCode}></Stack.Screen>
+                          <Stack.Screen name="ResetPassword" component={ResetPassword}></Stack.Screen>
                         </>
                 }
             </Stack.Navigator>

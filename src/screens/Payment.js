@@ -46,8 +46,8 @@ const Payment = ({route,navigation,createBookings}) => {
         // }
         else{
             console.log("**CONFIRM BOOKING DATA SENDING" ,BookDetails)
-            await createBookings(BookDetails)
-            navigation.navigate('BookingComplete',{BookDetails:BookDetails})
+            await createBookings(BookDetails,navigation)
+           
         }
       
 
@@ -158,6 +158,7 @@ const Payment = ({route,navigation,createBookings}) => {
                        placeholder="Expiry Date"
                        autoCapitalize="none"
                        value={moment(expDate).format('LL')}
+                       
                        onChangeText={(e)=>setBookDetails({...BookDetails,expDate:e})}
                        disabled={true}
                    />

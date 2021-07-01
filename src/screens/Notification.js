@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {View, Text,ScrollView,StyleSheet,StatusBar} from 'react-native';
 import { Container, Header, Content, Accordion, Form, Item, Input, Button, Icon, TouchableOpacity, Card, CardItem, Body } from 'native-base';
 import {  COLORS, SIZES,TEXTSTYLES  } from '../constants'
@@ -19,7 +19,10 @@ const Notification = ({getUserNotifications,Auth:{Notifications}}) => {
 { Notifications && Object.keys(Notifications).length>0?
             Notifications.data.map((item,index)=>(
               <Card key={index} style={{backgroundColor:COLORS.black,padding:10,borderColor:COLORS.transparent,width:'96%',alignSelf:'center'}} >
-<Text style={{color:COLORS.lightGray}}>{moment(item?.date).format('LL')}</Text>
+<Text style={{color:COLORS.lightGray}}>{moment.utc(item?.date.toLocaleString()).format("LL")}</Text>
+
+
+
 <Text style={{color:COLORS.white ,fontSize:16,fontWeight:'bold',textTransform:'uppercase',letterSpacing:1}}>{item?.title}</Text>
 <Text style={{color:COLORS.lightGray}}>{item?.body}</Text>
 

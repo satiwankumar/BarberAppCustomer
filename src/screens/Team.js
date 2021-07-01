@@ -21,6 +21,6 @@ export default Team;
 const styles = StyleSheet.create({
     teamBox:{width:100},
     teamImg:{height:100,width:'100%',borderRadius:10},
-    memberName:{color:COLORS.white,textAlign:'center',paddingVertical:6}
+    memberName:{color:COLORS.white,textAlign:'center',paddingVertical:2}
 
 });
