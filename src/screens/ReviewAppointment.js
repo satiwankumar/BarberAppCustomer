@@ -39,12 +39,12 @@ const ReviewAppointment = ({route,navigation}) => {
         <Icon  style={{color:COLORS.lightGray,fontSize:80,marginBottom:20}} name="calendar-outline"></Icon>
         <View style={{flexDirection:'row'}}>
         <Text style={{color:COLORS.white,fontSize:20,textTransform:'uppercase',fontWeight:'bold',paddingHorizontal:12,borderRightColor:COLORS.lightGray,borderRightWidth:2}}>{TimeSlot.startTime}</Text>
-            <Text style={{color:COLORS.white,fontSize:20,textTransform:'uppercase',fontWeight:'bold',paddingHorizontal:12,}}>{Service.title}</Text>
+            <Text style={{color:COLORS.white,fontSize:20,textTransform:'uppercase',fontWeight:'bold',paddingHorizontal:12,}}>{Service?.title}</Text>
             
         </View>
         <Text style={{color:COLORS.white,fontSize:16,textAlign:'center',marginTop:6,textTransform:'uppercase'}}> {AppointmentDate}</Text>
         <Text style={{color:COLORS.white,fontSize:16,textAlign:'center',marginTop:6}}>{Shop.address}</Text>
-        <Text style={{color:COLORS.secondry,fontSize:17,fontWeight:'bold',marginTop:'15%'}}>Total Amount: ${Service.charges}</Text>
+        <Text style={{color:COLORS.secondry,fontSize:17,fontWeight:'bold',marginTop:'15%'}}>Total Amount: ${Service?.charges}</Text>
         <TouchableOpacity
                 style={[GLOBALSTYLE.themebtn,styles.alignBtn]}
                 mode="contained"

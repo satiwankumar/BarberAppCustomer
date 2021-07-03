@@ -22,7 +22,7 @@ useEffect(() => {
 
 
 
-  console.log('**AUTHENTICATION VALUE',isAuthenticated)
+  console.log('**AUTHENTICATION VALUE',isAuthenticated,keyword)
   return (
     <View style={GLOBALSTYLE.screenbg} >
      
@@ -37,7 +37,7 @@ useEffect(() => {
       <Animatable.View style={styles.formPart}
         animation="slideInUp"
       >
-{/* 
+
 <Header searchBar rounded style={{backgroundColor:COLORS.primary}}>
           <Item style={{backgroundColor:COLORS.black,height:50,borderRadius:8}}>
             <Icon name="ios-search" />
@@ -52,7 +52,7 @@ useEffect(() => {
           <Button transparent>
             <Text>Search</Text>
           </Button>
-        </Header> */}
+        </Header>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 
       

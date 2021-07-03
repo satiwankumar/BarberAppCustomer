@@ -11,8 +11,8 @@ import moment from 'moment';
 
 
 const BookNow = ({route,getEmployeesByShopService,getTimeSlots,Employees:{employees,loading,timelsots},navigation}) => {
-  const Shop= route.params.Shop
-  const Service= route.params.Service
+  const Shop= route.params?.Shop
+  const Service= route.params?.Service
   const [empSelected,setEmpSelected] = useState(null)
   const [timeSelected,setEmpTimeSelected] = useState(null)
   useEffect(() => {
@@ -51,11 +51,11 @@ console.log("**EMPLOYEE TIMESLOTS ",timelsots)
                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                  <View style={{paddingLeft:10}}>
                  <View style={styles.serviceDesc}>
-                        <Text style={styles.serviceName}>{Service.title} </Text>
-                        <Text style={styles.price}>$ {Service.charges}</Text>
+                        <Text style={styles.serviceName}>{Service?.title} </Text>
+                        <Text style={styles.price}>$ {Service?.charges}</Text>
                     </View>
-                    <Text style={{color:COLORS.lightGray,fontSize:15,}}>{Service.description}</Text>
-                    <Text style={{color:COLORS.white,fontSize:15,marginTop:10}}>By - {Shop.title}</Text>
+                    <Text style={{color:COLORS.lightGray,fontSize:15,}}>{Service?.description}</Text>
+                    <Text style={{color:COLORS.white,fontSize:15,marginTop:10}}>By - {Shop?.title}</Text>
                  </View>
                  <Text style={TEXTSTYLES.sectionHead}>Select A Date  </Text>
        

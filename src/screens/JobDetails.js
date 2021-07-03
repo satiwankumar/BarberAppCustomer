@@ -3,11 +3,10 @@ import {View, Text,ScrollView,StyleSheet,StatusBar} from 'react-native';
 import { Container, Header, Content, Accordion, Form, Item, Input, Button, Icon, TouchableOpacity, Card, CardItem, Body } from 'native-base';
 import {  COLORS, SIZES,TEXTSTYLES  } from '../constants'
 import * as Animatable from 'react-native-animatable';
+import moment from 'moment';
 
 const JobDetails = ({route,navigation}) => {
     const item= route.params.item
-    const mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
-    const date =  new Date(item.shop?.createdAt)
     return(
         <Container style={styles.container}>
            
@@ -19,9 +18,9 @@ const JobDetails = ({route,navigation}) => {
         <Text style={{ color: COLORS.secondry, textTransform: 'uppercase', fontSize: 17,fontWeight:'bold' }}>
                   {item?.title}
                 </Text>
-                <Text style={{ color: COLORS.white, marginBottom: 10 }}>{item?.shop.title} - {item?.shop.address}</Text>
+                <Text style={{ color: COLORS.white, marginBottom: 10 }}>{item?.shop?.title} - {item?.shop?.address}</Text>
                 <Text style={{ color: COLORS.lightGray }}>
-                 Job Posted: {mlist[date.getMonth()]} {date.getDate()}, {date.getFullYear()}
+                 Job Posted: {moment(item.shop?.createdAt).format('LL')} 
                 </Text>
                 <Text style={{ color: COLORS.lightGray }}>
                  {item?.description}

@@ -31,7 +31,7 @@ const Package = ({navigation,getShopPackages,Packages:{Packages,loading},shopid}
                         </View>
                     </Body>
                 </CardItem>
-            </Card>)):<Text>kjdgkd</Text>}
+            </Card>)):<Text style={{color:COLORS.lightGray,paddingLeft:10,textTransform:'uppercase'}}>No Packages to show</Text>}
             </>
     )
     

@@ -34,7 +34,7 @@ const VendorDetail = ({ route, navigation, getShopById, Shop: { Shop, loading } 
           style={styles.imageBg}>
           <View style={styles.overlay}></View>
           <View style={{ flexDirection: 'row', padding: 20, alignItems: 'flex-end', justifyContent: 'space-around', zIndex: 2, flex: 1 }}>
-            <Text style={styles.bannerTitle}>{Shop.title}</Text>
+            <Text style={styles.bannerTitle}>{Shop?.title}</Text>
 
             <View style={{ width: '30%', flexDirection: 'row', textAlign: 'right', justifyContent: 'flex-end' }}>
               <Text style={{ fontSize: 20, color: COLORS.primary, fontWeight: 'bold' }}>{Shop.averageRating}
@@ -65,11 +65,10 @@ const VendorDetail = ({ route, navigation, getShopById, Shop: { Shop, loading } 
                 <Text style={TEXTSTYLES.sectionHead}>Availible Services</Text>
                 
                 <TouchableOpacity onPress={() => setshowAcc1(!showAcc1)}>
-                  <Icon style={{ color: COLORS.white }} name="chevron-down-outline"></Icon>
+                  <Icon style={{ color: COLORS.white,fontSize:26 }} name={showAcc1 ? 'chevron-down-outline' : 'chevron-up-outline'}></Icon>
                 </TouchableOpacity>
 
               </View>
-             
                 
               {showAcc1 ?
                 <ScrollView scrollEventThrottle={16} horizontal={true} showsHorizontalScrollIndicator={false} >
@@ -99,7 +98,7 @@ onPress={ () => navigation.navigate('BookNow',{Shop: Shop, Service: item}) }
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <Text style={TEXTSTYLES.sectionHead}>Packages & Offers</Text>
               <TouchableOpacity onPress={() => setshowAcc2(!showAcc2)}>
-                <Icon style={{ color: COLORS.white }} name="chevron-down-outline"></Icon>
+                <Icon style={{ color: COLORS.white,fontSize:26  }} name={showAcc2 ? 'chevron-down-outline' : 'chevron-up-outline'}></Icon>
               </TouchableOpacity>
 
             </View>
@@ -120,7 +119,7 @@ onPress={ () => navigation.navigate('BookNow',{Shop: Shop, Service: item}) }
                 Popular Services
            </Text>
               <TouchableOpacity onPress={() => setshowAcc3(!showAcc3)}>
-                <Icon style={{ color: COLORS.white }} name="chevron-down-outline"></Icon>
+                <Icon style={{ color: COLORS.white }} name={showAcc1 ? 'chevron-down-outline' : 'chevron-up-outline'}></Icon>
               </TouchableOpacity>
 
             </View>
@@ -147,14 +146,16 @@ onPress={ () => navigation.navigate('BookNow',{Shop: Shop, Service: item}) }
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <Text style={TEXTSTYLES.sectionHead}>Reviews</Text>
               <TouchableOpacity onPress={() => setshowAcc4(!showAcc4)}>
-                <Icon style={{ color: COLORS.white }} name="chevron-down-outline"></Icon>
+                <Icon style={{ color: COLORS.white ,fontSize:26 }} name={showAcc4 ? 'chevron-down-outline' : 'chevron-up-outline'}></Icon>
               </TouchableOpacity>
 
             </View>
+            {showAcc4 ?
             <View>
               <Review
                 shopid={shopId} />
             </View>
+            : null}
 
 
           </ScrollView>

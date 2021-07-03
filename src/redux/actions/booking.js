@@ -1,7 +1,7 @@
 import api from '../utils/api'
-import {GET_BOOKING_ERROR,GET_BOOKINGS,CREATE_BOOKINGS,BOOKING_ERROR} from './types'
+import {GET_BOOKING_ERROR,GET_BOOKINGS,CREATE_BOOKINGS,BOOKING_ERROR,CANCEL_BOOKING} from './types'
 import Toast from 'react-native-simple-toast';
-
+import {getTimeSlots} from '../actions/employees'
 // Get all bookings
 export const getBookings = () => async dispatch => {
     
@@ -31,6 +31,7 @@ export const getBookings = () => async dispatch => {
         type: CREATE_BOOKINGS,
         payload: res.data
       });
+      // dispatch(getTimeSlots())
       navigation.navigate('BookingComplete',{BookDetails:bookingDetails})
     } catch (err) {
       console.log("CREATE BOOKING ERROR",err.response.data)
@@ -52,9 +53,10 @@ export const getBookings = () => async dispatch => {
       console.log("BOOKING STATUS BEFORE CANCELLING",data)
       dispatch({
         type:CANCEL_BOOKING,
-        payload:res.data
+        payload:data
       });
-      console.log("BOOKING STATUS",res.data)
+      dispatch(getBookings())
+      console.log("BOOKING STATUSrrr",res.data)
     } catch(err){
       console.log("BOOKING STATUS ERROR")
       dispatch({

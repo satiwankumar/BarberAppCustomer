@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 
 const PostedJobs = ({navigation,getJobs,Jobs:{Jobs,loading}}) => {
   const [keyword,setKeyword] = useState('')
+  console.log(keyword)
   useEffect (() =>{
     getJobs(keyword)
 },[keyword])

@@ -9,6 +9,7 @@ import { PermissionsAndroid } from 'react-native';
 import { storeUserData } from '../../storage/storage';
 import Toast from 'react-native-simple-toast';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
+import AsyncStorage  from '@react-native-community/async-storage'
 
 const LocationAccess =({navigation}) => {
   const [GrantedPermission,setGrantedPermission] = useState(false)
@@ -39,9 +40,9 @@ const navigateToHome = async (data) =>{
   let coordinates= data.coords
   console.log("**SENDING LOCATION COORDS",coordinates)
   if(coordinates !== null){
-    console.log("sfds",typeof(coordinates))
      navigation.navigate('Home',{screen: 'Home', params: { userLoc: coordinates}})
- 
+    //  AsyncStorage.setItem('latitude',coordinates.latitude.toString());
+    //  AsyncStorage.setItem('longitude',coordinates.longitude.toString());
 }
   
 }

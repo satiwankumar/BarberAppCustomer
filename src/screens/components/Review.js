@@ -52,7 +52,7 @@ const Review = ({navigation,getShopReviews,Reviews:{Reviews,loading},shopid}) =>
           </Body>
         </CardItem>
       </Card>
-            )):<Text style={{color:COLORS.lightGray,textAlign:'center'}}>No Reviews to show</Text>}
+            )):<Text style={{color:COLORS.lightGray,paddingLeft:10,textTransform:'uppercase'}}>No Reviews to show</Text>}
         
         </View>
   

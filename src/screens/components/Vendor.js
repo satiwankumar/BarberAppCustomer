@@ -46,7 +46,8 @@ const Vendor = ({navigation,getNearbyShops,Shops:{Shops,loading},keyword,latitud
  )):  <Text>No Nearby Barbers</Text>}
  {Shops && Object.keys(Shops).length>4 && route.name =='Home' ? (
       <Button
-                onPress={() => navigation.navigate('ViewAll', {type:'Vendors'})}
+      
+                onPress={() => navigation.navigate('ViewAll', {type:'Vendors' ,Shops:Shops})}
                 style={{ alignSelf: 'center', backgroundColor: '#000', borderRadius: 100, borderWidth: 1, borderColor: '#fff', height: 55, width: 55,marginLeft:10 }}>
                 <Icon name='arrow-forward-outline' style={{ fontSize: 24, color: COLORS.white }} />
               </Button>
