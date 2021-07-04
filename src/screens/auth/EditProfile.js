@@ -21,6 +21,7 @@ const EditProfile = ({ navigation,updateProfile,route,getCurrentProfile,Profile:
       });
       const [showAddressModal, setShowAddressModal] = useState(false);
       const [addressData, setAddressData] = useState([]);
+      const [disableSubmit,setDisableSubmit] = useState(false)
       const { firstname, lastname, email,address ,image} = formData
       useEffect (() =>{
         getCurrentProfile();
@@ -42,6 +43,7 @@ const EditProfile = ({ navigation,updateProfile,route,getCurrentProfile,Profile:
       }
 
       const getAddress = async text => {
+        setDisableSubmit(true)
         setFormData({ ...formData, address: text })
     
         const addressList = await getAddressPrediction(text);
@@ -55,6 +57,7 @@ const EditProfile = ({ navigation,updateProfile,route,getCurrentProfile,Profile:
     
         if(text==''){
           setShowAddressModal(false);
+          
         }
       };
       const getLatLongFromAdd =  async (address) => {
@@ -62,7 +65,7 @@ const EditProfile = ({ navigation,updateProfile,route,getCurrentProfile,Profile:
         console.log("YAHHAH",address  )
         const addressInfo = await getGeoCode(address);
         setFormData({ ...formData, address: address })
-        
+        setDisableSubmit(false)
         console.log('Z_C',addressInfo);
         // setLat(addressInfo.lat);
         // setLong(addressInfo.lng);
@@ -167,9 +170,10 @@ const EditProfile = ({ navigation,updateProfile,route,getCurrentProfile,Profile:
                 </View>
 
                 <Button
-                    style={GLOBALSTYLE.themebtn}
+                    style={disableSubmit ? styles.disabledBtn : GLOBALSTYLE.themebtn }
                     mode="contained"
                     onPress={onSubmit}
+                    disabled={disableSubmit ? true : false}
                 >
                     <Text style={{ color: 'white', fontSize: 14, textTransform: 'uppercase' }}>save details</Text>
                 </Button>
@@ -205,6 +209,19 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
 
+    },
+    disabledBtn:{
+      marginTop: 20,
+      width: 200,
+      height: 50,
+      backgroundColor: COLORS.black,
+      borderColor:COLORS.secondry,
+      borderWidth:1,
+      alignSelf:'center',
+      justifyContent:'center',
+      borderRadius: 8,
+      textAlign:'center',
+      opacity:0.5
     },
     headDesc:{ 
         color: COLORS.lightGray, 

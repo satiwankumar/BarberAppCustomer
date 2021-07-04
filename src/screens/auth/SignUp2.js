@@ -17,6 +17,7 @@ const SignUp2 = ({ register, Auth:{isAuthenticated,loading},navigation,route  })
     const { firstname, lastname, email, password, image } = route.params;
     const [showAddressModal, setShowAddressModal] = useState(false);
     const [addressData, setAddressData] = useState([]);
+    const [disableSubmit,setDisableSubmit] = useState(false)
     const [lat, setLat] = useState(0);
   const [long, setLong] = useState(0);
     const [formData, setformData] = useState({
@@ -36,6 +37,7 @@ const SignUp2 = ({ register, Auth:{isAuthenticated,loading},navigation,route  })
     const { city, country, address, zip_code } = formData
 
     const getAddress = async text => {
+        setDisableSubmit(true)
       setformData({ ...formData, address: text })
   
       const addressList = await getAddressPrediction(text);
@@ -50,10 +52,11 @@ const SignUp2 = ({ register, Auth:{isAuthenticated,loading},navigation,route  })
       }
     };
     const getLatLongFromAdd =  async (address) => {
+       
       setShowAddressModal(false);
       const addressInfo = await getGeoCode(address);
       setformData({ ...formData, address: address ,zip_code: addressInfo.zipCode,country: addressInfo.country,city: addressInfo.city })
-      
+      setDisableSubmit(false)
       console.log('Z_C',addressInfo);
       setLat(addressInfo.lat);
       setLong(addressInfo.lng);
@@ -117,36 +120,6 @@ if(image !== null) {
                     />
                     <Text style={styles.headText}> Your Location </Text>
                     <Text style={styles.headDesc}>Enter Address to View Nearby Shops </Text>
-                    <Item
-                        floatingLabel
-                        style={styles.inputBox}>
-                        <Label
-                            style={styles.labelContent}>Country</Label>
-                        <Input
-                        
-                            style={styles.textContent}
-                            autoCorrect={false}
-                            placeholderTextColor={COLORS.white}
-                            autoCapitalize="none"
-                            value={country}
-                            onChangeText={(e) => setformData({ ...formData, country: e })}
-                        />
-                    </Item>
-                    <Item
-                        floatingLabel
-                        style={styles.inputBox}>
-                        <Label
-                            style={styles.labelContent}>City</Label>
-                        <Input
-                        
-                            style={styles.textContent}
-                            autoCorrect={false}
-                            placeholderTextColor={COLORS.white}
-                            autoCapitalize="none"
-                            value={city}
-                            onChangeText={(e) => setformData({ ...formData, city: e })}
-                        />
-                    </Item>
                     <View>
                     {showAddressModal && (
             <View
@@ -188,6 +161,37 @@ if(image !== null) {
                         />
                     </Item>
                     </View>
+                    <Item
+                        floatingLabel
+                        style={styles.inputBox}>
+                        <Label
+                            style={styles.labelContent}>Country</Label>
+                        <Input
+                        
+                            style={styles.textContent}
+                            autoCorrect={false}
+                            placeholderTextColor={COLORS.white}
+                            autoCapitalize="none"
+                            value={country}
+                            onChangeText={(e) => setformData({ ...formData, country: e })}
+                        />
+                    </Item>
+                    <Item
+                        floatingLabel
+                        style={styles.inputBox}>
+                        <Label
+                            style={styles.labelContent}>City</Label>
+                        <Input
+                        
+                            style={styles.textContent}
+                            autoCorrect={false}
+                            placeholderTextColor={COLORS.white}
+                            autoCapitalize="none"
+                            value={city}
+                            onChangeText={(e) => setformData({ ...formData, city: e })}
+                        />
+                    </Item>
+               
                    
 
                     <Item
@@ -206,9 +210,10 @@ if(image !== null) {
                         />
                     </Item>
                     <Button
-                        style={GLOBALSTYLE.themebtn}
+                       style={disableSubmit ? styles.disabledBtn : GLOBALSTYLE.themebtn }
                         mode="contained"
                         onPress={onSubmit}
+                        disabled={disableSubmit ? true : false}
                     // onPress= {() => props.navigation.navigate('FindServices')}
                     >
                         <Text style={{ color: 'white', fontSize: 16, textTransform: 'uppercase' }}>{
@@ -241,6 +246,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    disabledBtn:{
+        marginTop: 20,
+        width: 200,
+        height: 50,
+        backgroundColor: COLORS.black,
+        borderColor:COLORS.secondry,
+        borderWidth:1,
+        alignSelf:'center',
+        justifyContent:'center',
+        borderRadius: 8,
+        textAlign:'center',
+        opacity:0.5
+      },
     logo: {
         width: SIZES.width * 0.30,
         height: SIZES.width * 0.30,

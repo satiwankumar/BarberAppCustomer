@@ -59,7 +59,7 @@ const Routes = ({ Auth: { isAuthenticated } }) => {
                         ) :
                         <>
                           <Stack.Screen name="SplashScreen" component={SplashScreen} ></Stack.Screen>
-                          <Stack.Screen name="LoginScreen" component={LoginScreen} ></Stack.Screen>
+                          <Stack.Screen options={{headerLeft: () => null}} name="LoginScreen" component={LoginScreen} ></Stack.Screen>
                           <Stack.Screen name="ForgotPassword" component={ForgotPassword}></Stack.Screen>
                           <Stack.Screen name="SignUp" component={SignUp} ></Stack.Screen>
                           <Stack.Screen name="SignUp2" component={SignUp2} ></Stack.Screen>

@@ -8,19 +8,6 @@ import { color } from 'react-native-reanimated';
 import * as Animatable from 'react-native-animatable';
 
 const BookingComplete = ({route,navigation}) => {
-    BackHandler.addEventListener(
-        "hardwareBackPress",
-        onPress= () => navigation.navigate('BookNow')
-      );
-    useEffect(()=>{
-        const backHandler = BackHandler.addEventListener(
-            "hardwareBackPress",
-            onPress= () => navigation.navigate('BookNow')
-          );
-          return () => backHandler.remove();
-          
-      
-    },[])
 
 
     const Booking= route.params.BookingDetails

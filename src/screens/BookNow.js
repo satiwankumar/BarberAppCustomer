@@ -21,6 +21,7 @@ const BookNow = ({route,getEmployeesByShopService,getTimeSlots,Employees:{employ
 
     const [appointmentDate,setAppointmentDate] = useState(new Date())
     const [isDayPickerVisible, setDayPickerVisibility] = useState(false);
+    const todayDate = moment().toISOString()
     const EmployeeSlot = (item) => {
 console.log("**SELECTED EMPLOYEES",item)
 setEmpSelected(item)

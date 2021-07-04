@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     serviceText: {
         color: COLORS.white,
         fontSize: SIZES.h4,
+        textAlign:'center'
 
     },
     serviceImg: {
