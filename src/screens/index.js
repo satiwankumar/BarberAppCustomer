@@ -22,6 +22,7 @@ import Payment from './Payment'
 import ReviewAppointment from './ReviewAppointment'
 import Notification from './Notification'
 import BookingComplete from './BookingComplete'
+import PostReview from './PostReview'
 export {
-    Home,JobDetails,ServiceProvider,LocationAccess,FindServices,ForgotPassword,PostedJobs,UserBookings,UserProfile,LoginScreen,SignUp,SignUp2,VendorDetail,AllReviews
+    Home,JobDetails,ServiceProvider,LocationAccess,PostReview,FindServices,ForgotPassword,PostedJobs,UserBookings,UserProfile,LoginScreen,SignUp,SignUp2,VendorDetail,AllReviews
 ,ViewAll,BookNow,SplashScreen,Notification,ResetCode,ResetPassword,EditProfile,Payment,ReviewAppointment,BookingComplete}

@@ -32,8 +32,7 @@ export const getJobs = (keyword) => async dispatch => {
     });
     console.log("POSTEDD JOBSS",res.data);
   } catch (err) {
-    console.log(err)
-    console.log(err)
+    console.log(err.response.data)
     dispatch({
       type: JOBS_ERROR,
       payload:err

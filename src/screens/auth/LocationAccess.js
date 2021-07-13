@@ -11,7 +11,8 @@ import Toast from 'react-native-simple-toast';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import AsyncStorage  from '@react-native-community/async-storage'
 
-const LocationAccess =({navigation}) => {
+const LocationAccess =({navigation ,route}) => {
+  console.log("TYPE",route.params.typeKey)
   const [GrantedPermission,setGrantedPermission] = useState(false)
   const [userLocation,setUserLocation] = useState(null)
   const getloc = async  () =>{
@@ -40,7 +41,7 @@ const navigateToHome = async (data) =>{
   let coordinates= data.coords
   console.log("**SENDING LOCATION COORDS",coordinates)
   if(coordinates !== null){
-     navigation.navigate('Home',{screen: 'Home', params: { userLoc: coordinates}})
+     navigation.navigate('Home',{screen: 'Home', params: { latitude: coordinates.latitude ,longitude:coordinates.longitude , typeKey : route.params.typeKey}})
     //  AsyncStorage.setItem('latitude',coordinates.latitude.toString());
     //  AsyncStorage.setItem('longitude',coordinates.longitude.toString());
 }
@@ -77,7 +78,7 @@ const navigateToHome = async (data) =>{
          <TouchableOpacity onPress={requestLocationPermission} style={{backgroundColor:COLORS.black,padding:12,borderRadius:8,borderColor:COLORS.secondry,borderWidth:1,marginBottom:7,width:320}}>
              <Text style={{color:COLORS.white,fontSize:17,textTransform:'uppercase',textAlign:'center'}}>Allow Location Access</Text>
          </TouchableOpacity>
-         <TouchableOpacity onPress={() =>  navigation.navigate('Home',{screen: 'Home', params: { userLoc: ''}})} style={{backgroundColor:COLORS.black,padding:12,borderRadius:8,borderColor:COLORS.secondry,borderWidth:1,marginBottom:7,width:320}}>
+         <TouchableOpacity onPress={() =>  navigation.navigate('Home',{screen: 'Home', params: { latitude: '',longitude:'',typeKey:route.params.typeKey}})} style={{backgroundColor:COLORS.black,padding:12,borderRadius:8,borderColor:COLORS.secondry,borderWidth:1,marginBottom:7,width:320}}>
              <Text style={{color:COLORS.white,fontSize:17,textTransform:'uppercase',textAlign:'center'}}>Not Now</Text>
          </TouchableOpacity>
        </View>

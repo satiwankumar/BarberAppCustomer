@@ -61,8 +61,8 @@ const UserBookings = ({getBookings,Bookings: {Bookings,loading}}) => {
               <CardItem style={{backgroundColor:COLORS.transparent}}>
                 <Body style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                     <View>
-                    <Text style={{color:COLORS.white,textTransform:'uppercase',fontSize:17,fontWeight:'bold'}}>
-                      {item?.service.title}
+                    <Text style={{color:COLORS.white,textTransform:'uppercase',fontSize:17,fontWeight:'bold',width:'75%'}}>
+                      {item?.service == null ? item?.package?.title : item?.service?.title}
                     </Text>
                     
                   
@@ -71,10 +71,12 @@ const UserBookings = ({getBookings,Bookings: {Bookings,loading}}) => {
                  
                     
                     </View>
-                 
-                  <Text style={{color:COLORS.secondry,fontSize:20}}>
+                 <View style={{width:'20%' ,position:'absolute',top:0,right:0}}>
+                 <Text style={{color:COLORS.secondry,fontSize:20}}>
                  $ {item?.charges}
                   </Text>
+                 </View>
+                  
 
                 
 

@@ -10,9 +10,9 @@ const Vendor = ({navigation,getNearbyShops,Shops:{Shops,loading},keyword,latitud
   
     
     useEffect (() =>{
-        console.log("LONGITUDE,LATITUDE",longitude,latitude)
+        console.log("LONGITUDE,LATITUDE",longitude,latitude,keyword)
         getNearbyShops( latitude,longitude,keyword)
-    },[keyword])
+    },[keyword,latitude,longitude])
     const route = useRoute();
     return (
         <>
@@ -43,7 +43,7 @@ const Vendor = ({navigation,getNearbyShops,Shops:{Shops,loading},keyword,latitud
             </CardItem>
           </Card>
           </TouchableOpacity>
- )):  <Text>No Nearby Barbers</Text>}
+ )):  <Text style={{color:COLORS.lightGray,textTransform:'uppercase',marginLeft:10}}>No Shops Found</Text>}
  {Shops && Object.keys(Shops).length>4 && route.name =='Home' ? (
       <Button
       

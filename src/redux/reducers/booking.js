@@ -44,17 +44,6 @@ const booking =  function (state = initialState, action) {
           ...state,
                 loading:false
         };
-    //     case CANCEL_BOOKING:
-    //       const s = {...state}
-    //       console.log("sjfh",state)
-    //     console.log("CANCEL BOOKINGtT",payload)
-    // s.Bookings.data = s.Bookings.data.filter(u => u._id !== payload.booking_id)
-
-
-    // return{
-    //     ...s,
-    //   loading:false
-    // } 
    
     
       default:

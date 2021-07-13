@@ -6,10 +6,10 @@ import { COLORS, SIZES, GLOBALSTYLE, TEXTSTYLES } from '../constants';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { color } from 'react-native-reanimated';
 import * as Animatable from 'react-native-animatable';
-
+import moment from 'moment';
 const ReviewAppointment = ({route,navigation}) => {
-    const {Shop , Service ,AppointmentDate ,EmployeeId ,TimeSlot} = route.params
-  
+    const {Shop , Service ,AppointmentDate ,EmployeeId ,TimeSlot,Package} = route.params
+  console.log(route.params)
     const [CardDetails,setCardDetails] = useState({
         cardNo :'',
         expDate:new Date(),
@@ -39,16 +39,16 @@ const ReviewAppointment = ({route,navigation}) => {
         <Icon  style={{color:COLORS.lightGray,fontSize:80,marginBottom:20}} name="calendar-outline"></Icon>
         <View style={{flexDirection:'row'}}>
         <Text style={{color:COLORS.white,fontSize:20,textTransform:'uppercase',fontWeight:'bold',paddingHorizontal:12,borderRightColor:COLORS.lightGray,borderRightWidth:2}}>{TimeSlot.startTime}</Text>
-            <Text style={{color:COLORS.white,fontSize:20,textTransform:'uppercase',fontWeight:'bold',paddingHorizontal:12,}}>{Service?.title}</Text>
+            <Text style={{color:COLORS.white,fontSize:20,textTransform:'uppercase',fontWeight:'bold',paddingHorizontal:12,width:'60%'}}>{moment(AppointmentDate).format('LL')}</Text>
             
         </View>
-        <Text style={{color:COLORS.white,fontSize:16,textAlign:'center',marginTop:6,textTransform:'uppercase'}}> {AppointmentDate}</Text>
+        <Text style={{color:COLORS.white,fontSize:16,textAlign:'center',marginTop:6,textTransform:'uppercase'}}>  {Package == null ? Service?.title : Package?.title}</Text>
         <Text style={{color:COLORS.white,fontSize:16,textAlign:'center',marginTop:6}}>{Shop.address}</Text>
-        <Text style={{color:COLORS.secondry,fontSize:17,fontWeight:'bold',marginTop:'15%'}}>Total Amount: ${Service?.charges}</Text>
+        <Text style={{color:COLORS.secondry,fontSize:17,fontWeight:'bold',marginTop:'15%'}}>Total Amount: ${Package == null ? Service?.charges : Package?.charges}</Text>
         <TouchableOpacity
                 style={[GLOBALSTYLE.themebtn,styles.alignBtn]}
                 mode="contained"
-               onPress={() => navigation.navigate('Payment',{Shop: Shop, Service: Service , AppointmentDate: AppointmentDate.toString(),EmployeeId : EmployeeId , TimeSlot: TimeSlot})}
+               onPress={() => navigation.navigate('Payment',{Shop: Shop, Service: Service , AppointmentDate: AppointmentDate.toString(),EmployeeId : EmployeeId , TimeSlot: TimeSlot,Package:Package})}
                 >
                 <Text style={{ color: 'white', fontSize: 16,textTransform: 'uppercase',textAlign:'center'}}>COMPLETE BOOKING
                 </Text>

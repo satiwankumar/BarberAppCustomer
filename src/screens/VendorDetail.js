@@ -74,7 +74,7 @@ const VendorDetail = ({ route, navigation, getShopById, Shop: { Shop, loading } 
                 <ScrollView scrollEventThrottle={16} horizontal={true} showsHorizontalScrollIndicator={false} >
                    { Shop.services.map((item,index)=>(
 <TouchableOpacity key={item._id} style={styles.serviceBox}
-onPress={ () => navigation.navigate('BookNow',{Shop: Shop, Service: item}) }
+onPress={ () => navigation.navigate('BookNow',{Shop: Shop, Service: item,Package:null}) }
 >
               
               <View style={{ flex: 2 }}>
@@ -85,7 +85,7 @@ onPress={ () => navigation.navigate('BookNow',{Shop: Shop, Service: item}) }
                 />
             </View>
             <View style={{ flex: 1 }}>
-                 <Text style={styles.serviceText}>{item.title}</Text>
+                 <Text style={styles.serviceText} numberOfLines={2} ellipsizeMode='tail'>{item.title}</Text>
                 
             </View>
             
@@ -106,38 +106,13 @@ onPress={ () => navigation.navigate('BookNow',{Shop: Shop, Service: item}) }
               {showAcc2 ?
                 <ScrollView scrollEventThrottle={16} horizontal={true} showsHorizontalScrollIndicator={false} >
                   <Package
-                    shopid={shopId}
+                    shop={Shop}
+                    navigation={navigation}
                   />
 
 
                 </ScrollView> : null}
             </Animatable.View>
-
-
-            {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text style={TEXTSTYLES.sectionHead}>
-                Popular Services
-           </Text>
-              <TouchableOpacity onPress={() => setshowAcc3(!showAcc3)}>
-                <Icon style={{ color: COLORS.white }} name={showAcc1 ? 'chevron-down-outline' : 'chevron-up-outline'}></Icon>
-              </TouchableOpacity>
-
-            </View>
-            {showAcc3 ?
-              <View>
-                <PopularService
-                  serviceImg={require("../assets/images/pop1.jpg")}
-                  serviceName='Hair Styling'
-                  time='45'
-                  price='30'
-                />
-                <PopularService
-                  serviceImg={require("../assets/images/fac.jpg")}
-                  serviceName='Facial Treatment'
-                  time='60'
-                  price='30'
-                />
-              </View> : null} */}
 
 
 
@@ -154,6 +129,19 @@ onPress={ () => navigation.navigate('BookNow',{Shop: Shop, Service: item}) }
             <View>
               <Review
                 shopid={shopId} />
+
+                <TouchableOpacity onPress={()=>navigation.navigate('PostReview' , {shopId: shopId})} style={{marginTop: 20,
+            width: 150,
+            height: 45,
+            marginLeft:10,
+            backgroundColor: COLORS.primary,
+            borderColor:COLORS.secondry,
+            borderWidth:1,
+            justifyContent:'center',
+            borderRadius: 8,
+            textAlign:'center'}}>
+                  <Text style={{color:COLORS.white,textAlign:'center',textTransform:'uppercase'}}>Post A review</Text>
+                </TouchableOpacity>
             </View>
             : null}
 
@@ -229,6 +217,8 @@ const styles = StyleSheet.create({
 serviceText: {
     color: COLORS.white,
     fontSize: SIZES.h4,
+    textAlign:'center',
+    textTransform:'capitalize'
 
 },
 serviceImg: {

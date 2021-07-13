@@ -1,10 +1,11 @@
 import api from '../utils/api'
-import {GET_SHOPS,SHOPS_ERROR,GET_SHOPREVIEWS,REVIEW_ERROR,GET_SHOPS_BY_SERVICES,BY_SERVICES_ERROR,GET_PACKAGES,PACKAGES_ERROR,GET_SHOP_BY_ID} from './types'
+import {GET_SHOPS,SHOPS_ERROR,GET_SHOPREVIEWS,REVIEW_ERROR,ADD_SHOPREVIEWS,ADD_REVIEW_ERROR,GET_SHOPS_BY_SERVICES,BY_SERVICES_ERROR,GET_PACKAGES,PACKAGES_ERROR,GET_SHOP_BY_ID} from './types'
 
 
 
 export const getNearbyShops = (longitude,latitude,keyword) => async dispatch => {
   try {
+    console.log("GETTTT SHOPPPSSS APIIIII lat:",latitude,"long:",longitude,"keyword:",keyword)
   const res = await api.get(`/shops?log=${longitude}&lat=${latitude}&keyword=${keyword}`)
     dispatch({
       type: GET_SHOPS,
@@ -12,8 +13,7 @@ export const getNearbyShops = (longitude,latitude,keyword) => async dispatch => 
     });
     console.log("GET NEARBY SHOPS",res.data);
   } catch (err) {
-    console.log(err)
-    console.log(err)
+    console.log(err.response.data)
     dispatch({
       type: SHOPS_ERROR,
       payload:err
@@ -62,7 +62,25 @@ export const getShopReviews = (shop) => async dispatch => {
       });
     }
   };
-
+  export const addReviews = (rating,message,shop) => async dispatch => {
+    try {
+      const body = JSON.stringify({ rating,message,shop })
+    const res = await api.post('/review', body)
+      console.log('POST SHOP REVIEWS',res.data)
+      dispatch({
+        type: ADD_SHOPREVIEWS,
+        payload: res.data
+      });
+      dispatch(getShopReviews())
+    } catch (err) {
+      console.log(err)
+      dispatch({
+        type: ADD_REVIEW_ERROR,
+        payload:err
+        
+      });
+    }
+  };
 
   export const getShopPackages = (shop) => async dispatch => {
     try {

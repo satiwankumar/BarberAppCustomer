@@ -13,10 +13,11 @@ const Home = ({Auth:{isAuthenticated},navigation,route,getCurrentProfile}) => {
   const [keyword,setKeyword] = useState('')
   const [lat,setLat] =useState('')
   const [long,setLong] =useState('')
+  
   console.log("userert coords",route.params)
 useEffect(() => {
-  setLat(route.params.userLoc.latitude)
-  setLong(route.params.userLoc.longitude)
+  setLat(route.params.latitude)
+  setLong(route.params.longitude)
   getCurrentProfile();
 },[]);
 
@@ -61,12 +62,17 @@ useEffect(() => {
         
           <View >
           <ScrollView scrollEventThrottle={16} horizontal={true} showsHorizontalScrollIndicator={false} >
-            <Service navigation={navigation}/>
+           
+            <Service navigation={navigation}/> 
             
           </ScrollView>
         </View>
 
-          <Text style={TEXTSTYLES.sectionHead}>Explore In Your Area</Text>
+    {
+      route.params.latitude !== "" &&  route.params.longitude !== "" ?   <Text style={TEXTSTYLES.sectionHead}>Explore In Your Area</Text> 
+      :   <Text style={TEXTSTYLES.sectionHead}>All Shops</Text>
+    }
+         
           <View >
             <ScrollView scrollEventThrottle={16} horizontal={true} showsHorizontalScrollIndicator={false} >
              <Vendor latitude={lat} longitude={long}  keyword={keyword}  navigation={navigation}/>

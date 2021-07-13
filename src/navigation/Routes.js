@@ -4,7 +4,7 @@ import { NavigationContainer, DarkTheme } from '@react-navigation/native'
 import { StyleSheet, View,Text ,Button, TouchableOpacity} from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack'
 import Tabs from './Tabs'
-import { Home, ResetCode, ServiceProvider, BookingComplete, ReviewAppointment, EditProfile, Notification, Payment, JobDetails, PostedJobs, LocationAccess, SplashScreen, UserBookings, UserProfile, FindServices, LoginScreen, SignUp, SignUp2, BookNow, ForgotPassword, VendorDetail, ViewAll, AllReviews, ResetPassword } from '../screens'
+import { Home, ResetCode, ServiceProvider,PostReview, BookingComplete, ReviewAppointment, EditProfile, Notification, Payment, JobDetails, PostedJobs, LocationAccess, SplashScreen, UserBookings, UserProfile, FindServices, LoginScreen, SignUp, SignUp2, BookNow, ForgotPassword, VendorDetail, ViewAll, AllReviews, ResetPassword } from '../screens'
 import { COLORS } from '../constants';
 import { connect } from 'react-redux'
 import { Icon } from 'native-base';
@@ -42,6 +42,7 @@ const Routes = ({ Auth: { isAuthenticated } }) => {
                            <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="Home" component={Tabs} ></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="ViewAll" component={ViewAll} ></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="VendorDetail" component={VendorDetail} ></Stack.Screen>
+                          <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="PostReview" component={PostReview} ></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="PostedJobs" component={PostedJobs}></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="JobDetails" component={JobDetails}></Stack.Screen>
                           <Stack.Screen options={{headerRight: () => (<NotificationIcon/>)}} name="UserBookings" component={UserBookings}></Stack.Screen>

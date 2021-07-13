@@ -11,12 +11,22 @@ import moment from 'moment';
 
 
 const BookNow = ({route,getEmployeesByShopService,getTimeSlots,Employees:{employees,loading,timelsots},navigation}) => {
+  
   const Shop= route.params?.Shop
   const Service= route.params?.Service
+  const Package = route.params?.Package
+  console.log("ROUTES  DATA",route.params)
   const [empSelected,setEmpSelected] = useState(null)
   const [timeSelected,setEmpTimeSelected] = useState(null)
   useEffect(() => {
-    getEmployeesByShopService(Shop._id,Service._id)
+    if(Package == null){
+      getEmployeesByShopService(Shop._id,Service._id)
+    }
+    else {
+      getEmployeesByShopService(Shop._id,Package._id)
+    }
+    
+    
   }, [Shop,Service])
 
     const [appointmentDate,setAppointmentDate] = useState(new Date())
@@ -25,7 +35,12 @@ const BookNow = ({route,getEmployeesByShopService,getTimeSlots,Employees:{employ
     const EmployeeSlot = (item) => {
 console.log("**SELECTED EMPLOYEES",item)
 setEmpSelected(item)
-getTimeSlots(item._id,Service._id,appointmentDate)
+if(Package == null){
+  getTimeSlots(item._id,Service._id,appointmentDate)
+}
+else{
+  getTimeSlots(item._id,Package._id,appointmentDate)
+}
 console.log("**EMPLOYEE TIMESLOTS ",timelsots)
     }
     const showDayPicker = () => {
@@ -52,10 +67,10 @@ console.log("**EMPLOYEE TIMESLOTS ",timelsots)
                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                  <View style={{paddingLeft:10}}>
                  <View style={styles.serviceDesc}>
-                        <Text style={styles.serviceName}>{Service?.title} </Text>
-                        <Text style={styles.price}>$ {Service?.charges}</Text>
+                        <Text style={styles.serviceName}>{Package == null ? Service?.title : Package?.title } </Text>
+                        <Text style={styles.price}>$ {Package == null ? Service?.charges :Package?.charges}</Text>
                     </View>
-                    <Text style={{color:COLORS.lightGray,fontSize:15,}}>{Service?.description}</Text>
+                    <Text style={{color:COLORS.lightGray,fontSize:15,}}>{Package == null ? Service?.description : Package.description}</Text>
                     <Text style={{color:COLORS.white,fontSize:15,marginTop:10}}>By - {Shop?.title}</Text>
                  </View>
                  <Text style={TEXTSTYLES.sectionHead}>Select A Date  </Text>
@@ -111,7 +126,7 @@ employees.data.map((item,index)=>(
         
       )
       ):
-      <Text style={{color:COLORS.white,paddingHorizontal:10}}>No Employees Found</Text>
+      <Text style={{color:COLORS.lightGray,paddingHorizontal:10,textTransform:'uppercase'}}>No Employees Found</Text>
 }
           
             </ScrollView>
@@ -148,14 +163,14 @@ timelsots.hours.map((item,index) => (
             }
   </>
 
-   : <Text style={{color:COLORS.white,paddingHorizontal:10}}>Select Employee to get Respective Time Slots</Text>
+   : <Text style={{color:COLORS.lightGray,paddingHorizontal:10,textTransform:'uppercase'}}>Select Employee to get Respective Time Slots</Text>
 }
 
        
           
     </ScrollView>
     <View style={{marginTop:20}}>
-    <Button  disabled={empSelected !== null && timeSelected !== null ? false : true} style={empSelected !== null && timeSelected !== null ? GLOBALSTYLE.themebtn : styles.disbaleBtn} onPress={()=> navigation.navigate('ReviewAppointment',{Shop: Shop, Service: Service , AppointmentDate: appointmentDate.toString() , EmployeeId : empSelected._id , TimeSlot: timeSelected})}>
+    <Button  disabled={empSelected !== null && timeSelected !== null ? false : true} style={empSelected !== null && timeSelected !== null ? GLOBALSTYLE.themebtn : styles.disbaleBtn} onPress={()=> navigation.navigate('ReviewAppointment',{Shop: Shop, Service: Service , AppointmentDate: appointmentDate.toString() , EmployeeId : empSelected._id , TimeSlot: timeSelected,Package:Package})}>
                         <Text style={{color:COLORS.white,textTransform:'uppercase'}}>Review appointment</Text>
                     </Button>
     </View>
@@ -262,9 +277,9 @@ const styles = StyleSheet.create({
      },
      serviceName:{
          color:COLORS.white,
-         fontSize:27,
-         fontWeight:'bold',
-         width:'60%'    
+         fontSize:24,
+         width:'60%'   ,
+         textTransform:'capitalize' 
      }
      ,price:{
          color:COLORS.lightGray,

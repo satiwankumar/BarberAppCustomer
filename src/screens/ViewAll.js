@@ -10,7 +10,6 @@ const ViewAll = ({navigation,route }) => {
   const  passedRoute = route.params.type;
   const Shops =route.params.Shops
   console.log("hgyh",passedRoute,Shops)
-  console.log("f",keyword)
     const [keyword,setKeyword] = useState('')
   return (
     

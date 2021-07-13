@@ -12,12 +12,12 @@ import { createBookings } from '../redux/actions/booking'
 import moment from 'moment';
 
 const Payment = ({route,navigation,createBookings}) => {
-    const {Shop , Service ,AppointmentDate ,EmployeeId ,TimeSlot} = route.params
+    const {Shop , Service ,AppointmentDate ,EmployeeId ,TimeSlot,Package} = route.params
     const [itemSelected,setItemSelected] = useState("pay_in_person")
     const [isDayPickerVisible, setDayPickerVisibility] = useState(false);
     const [BookDetails,setBookDetails] = useState({
-        service: Service._id,
-        charges :Service.charges,
+        service: Service !== null ? Service._id : null,
+        charges : Package == null ? Service.charges : Package.charges,
         stylist: EmployeeId,
         shop: Shop._id,
         date: AppointmentDate,
@@ -27,6 +27,7 @@ const Payment = ({route,navigation,createBookings}) => {
         cardNo :'',
         expDate:new Date(),
         cvvCode:'',
+        package:Package !== null ? Package._id : null
 
     })
 

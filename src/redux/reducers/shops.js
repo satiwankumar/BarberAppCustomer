@@ -1,4 +1,4 @@
-import {GET_SHOPREVIEWS, GET_SHOPS,REVIEW_ERROR,SHOPS_ERROR,GET_SHOPS_BY_SERVICES,BY_SERVICES_ERROR,GET_PACKAGES,GET_SHOP_BY_ID,PACKAGES_ERROR} from '../actions/types'
+import {GET_SHOPREVIEWS, GET_SHOPS,ADD_REVIEW_ERROR,REVIEW_ERROR,ADD_SHOPREVIEWS,SHOPS_ERROR,GET_SHOPS_BY_SERVICES,BY_SERVICES_ERROR,GET_PACKAGES,GET_SHOP_BY_ID,PACKAGES_ERROR} from '../actions/types'
 
 const initialState = {
     loading:true,
@@ -69,6 +69,20 @@ export default function(state = initialState, action){
             loading: false
           };
         }
+
+        
+        case ADD_SHOPREVIEWS:
+        return {
+          ...state,
+                ...payload,
+                loading:false,
+               
+        };
+        case ADD_REVIEW_ERROR:
+            return{
+                ...state,
+                loading:false,
+            }
        
         default:
                 return state;

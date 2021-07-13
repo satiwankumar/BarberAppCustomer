@@ -150,7 +150,7 @@ const LoginScreen = ({login,navigation,Auth:{isAuthenticated,loading}}) => {
       };
     const {email,password} = formData
     return (
-       
+        <>
         <View style={[GLOBALSTYLE.screenbg,styles.container]} >
             
             <StatusBar translucent backgroundColor="transparent"/>
@@ -254,6 +254,10 @@ const LoginScreen = ({login,navigation,Auth:{isAuthenticated,loading}}) => {
             </View>
           </ScrollView>
         </View>
+        </>
+
+       
+        
     )
 }
 

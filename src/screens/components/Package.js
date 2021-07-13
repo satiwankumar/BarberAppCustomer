@@ -5,33 +5,36 @@ import { COLORS, SIZES, GLOBALSTYLE, TEXTSTYLES } from "../../constants";
 import {getShopPackages} from '../../redux/actions/shops'
 import {connect} from 'react-redux'
 
-const Package = ({navigation,getShopPackages,Packages:{Packages,loading},shopid}) => {
+const Package = ({getShopPackages,Packages:{Packages,loading},shop,navigation}) => {
   
     useEffect (() =>{
-        getShopPackages('60845b31dc8bd5284098c869')
-    },[getShopPackages.shopid])
+        getShopPackages(shop._id)
+    },[getShopPackages.shop])
     return (
         <>
         {Packages && Object.keys(Packages).length > 0?
 
-            Packages.data.map((item,index)=>(
-            <Card key={item._id} style={styles.shopBox}>
+            Packages.data.map((item,index)=>(  
+                <TouchableOpacity  onPress={() => navigation.navigate('BookNow',{Shop: shop, Service: null , Package:item}) }  key={item._id}>
+    <Card style={styles.shopBox}>
                 <CardItem style={{ backgroundColor: COLORS.transparent, }}>
                     <Body>
-                        <Image    source={{uri: item.images[0]}}
+                        {/* <Image    source={{uri: item.images[0]}}
                             resizeMode="cover"
-                            style={styles.shopImg} />
+                            style={styles.shopImg} /> */}
                         <View style={{ flexDirection: 'row', paddingVertical: 10,justifyContent:'space-between', alignItems: 'flex-start' }}>
                             <View style={{ width: '80%' }}>
-                                <Text style={styles.shopHead}>{item.title}</Text>
-                                <Text style={styles.shopDesc}>{item.description}</Text>
+                                <Text style={styles.shopHead} numberOfLines={2} ellipsizeMode='tail'>{item?.title}</Text>
+                                <Text style={styles.shopDesc} numberOfLines={2} ellipsizeMode='tail'>t{item?.description}</Text>
                             </View>
-                                <Text style={{ color: COLORS.secondry, fontSize: 18,width:'20%',textAlign:'right' }}>${item.charges}</Text>
+                                <Text style={{ color: COLORS.secondry, fontSize: 18,width:'20%',textAlign:'right' }}>${item?.charges}</Text>
                             
                         </View>
                     </Body>
                 </CardItem>
-            </Card>)):<Text style={{color:COLORS.lightGray,paddingLeft:10,textTransform:'uppercase'}}>No Packages to show</Text>}
+            </Card>
+                </TouchableOpacity>    
+        )):<Text style={{color:COLORS.lightGray,paddingLeft:10,textTransform:'uppercase'}}>No Packages to show</Text>}
             </>
     )
     
@@ -53,6 +56,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.primary,
         width:300,
         marginLeft:15,
+        minHeight:125
 
     },
     shopHead: {

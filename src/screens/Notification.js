@@ -33,6 +33,11 @@ const Notification = ({getUserNotifications,Auth:{Notifications}}) => {
 
 </View>
 </ScrollView>
+
+
+
+
+
 </Container>
     )
 }
